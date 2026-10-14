@@ -7,6 +7,12 @@ export const SITE = {
   locale: 'ro_RO',
   lang: 'ro',
   gaId: 'G-VPTMQNJKKP',
+  /** Self-hosted, cookieless Umami (server 38.79.154.74). */
+  umami: {
+    src: 'https://stats.aldeacosmin.ro/script.js',
+    websiteId: 'f08fdb4d-7296-4a94-94c0-b17bfd4624b3',
+    domains: 'aldeacosmin.ro',
+  },
   defaultOgImage:
     'https://media.aldeacosmin.ro/cdn-cgi/image/width=1200,height=630,fit=cover,quality=80,format=jpeg/galerie/muntii-retezat-1.webp',
   heroImage: 'https://media.aldeacosmin.ro/galerie/muntii-retezat-1.webp',

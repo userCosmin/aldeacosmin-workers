@@ -9,11 +9,16 @@ export type AnalyticsEvent =
   | { name: 'whatsapp_click'; params: { location: string } };
 
 type Gtag = (...args: unknown[]) => void;
+export interface Umami {
+  track: (event?: string, data?: Record<string, unknown>) => void;
+}
 
+/** Sends a custom event to GA4 (queued until consent) and to cookieless Umami. */
 export function trackEvent<E extends AnalyticsEvent>(name: E['name'], params: E['params']): void {
   if (typeof window === 'undefined') return;
-  const gtag = (window as unknown as { gtag?: Gtag }).gtag;
-  gtag?.('event', name, params);
+  const w = window as unknown as { gtag?: Gtag; umami?: Umami };
+  w.gtag?.('event', name, params);
+  w.umami?.track(name, params);
 }
 
 /** data-* attributes picked up by the delegated click listener in src/scripts/analytics.ts */

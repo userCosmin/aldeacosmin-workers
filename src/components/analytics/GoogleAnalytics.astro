@@ -7,7 +7,19 @@ import { SITE } from '../../data/site';
  * analytics cookies (see src/scripts/analytics.ts and CookieConsent.tsx).
  */
 const id = SITE.gaId;
+// Umami is cookieless, so it runs without consent. Auto-tracking is off because page views are
+// sent from src/scripts/analytics.ts on astro:page-load (correct title/URL with View Transitions).
+const umami = SITE.umami;
 ---
+
+<script
+  is:inline
+  defer
+  src={umami.src}
+  data-website-id={umami.websiteId}
+  data-domains={umami.domains}
+  data-auto-track="false"
+></script>
 
 <script is:inline define:vars={{ id }}>
   if (!window.__acAnalytics) {

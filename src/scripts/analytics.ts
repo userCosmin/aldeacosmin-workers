@@ -1,8 +1,9 @@
-import { CONSENT_EVENT, CONSENT_KEY, type ConsentState } from '../lib/analytics';
+import { CONSENT_EVENT, CONSENT_KEY, type ConsentState, type Umami } from '../lib/analytics';
 
 type Gtag = (...args: unknown[]) => void;
 interface AnalyticsWindow extends Window {
   gtag?: Gtag;
+  umami?: Umami;
   __acAnalytics?: { id: string; loaded: boolean };
 }
 const w = window as AnalyticsWindow;
@@ -25,6 +26,12 @@ function storedConsent(): ConsentState | null {
   }
 }
 
+// Umami page view; the tracker loads with `defer`, so the first call may need to wait for it.
+function umamiPageView() {
+  if (w.umami) return w.umami.track();
+  document.querySelector('script[data-website-id]')?.addEventListener('load', () => w.umami?.track(), { once: true });
+}
+
 // page_view on first load and on every Astro View Transitions navigation.
 let lastPath = '';
 function trackPageView() {
@@ -36,6 +43,7 @@ function trackPageView() {
     page_location: location.href,
     page_path: location.pathname,
   });
+  umamiPageView();
 }
 document.addEventListener('astro:page-load', trackPageView);
 trackPageView();
@@ -63,6 +71,7 @@ document.addEventListener(
       params[name] = value;
     }
     w.gtag?.('event', el.dataset.track, params);
+    if (el.dataset.track) w.umami?.track(el.dataset.track, params);
   },
   { capture: true },
 );
