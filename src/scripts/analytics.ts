@@ -1,4 +1,4 @@
-import { CONSENT_EVENT, CONSENT_KEY, type ConsentState, type Umami } from '../lib/analytics';
+import { CONSENT_EVENT, CONSENT_KEY, umamiTrack, type ConsentState, type Umami } from '../lib/analytics';
 
 type Gtag = (...args: unknown[]) => void;
 interface AnalyticsWindow extends Window {
@@ -27,9 +27,13 @@ function storedConsent(): ConsentState | null {
 }
 
 // Umami page view; the tracker loads with `defer`, so the first call may need to wait for it.
+// After the first page the referrer is the previous page of the visit.
+let previousUrl: string | undefined;
 function umamiPageView() {
-  if (w.umami) return w.umami.track();
-  document.querySelector('script[data-website-id]')?.addEventListener('load', () => w.umami?.track(), { once: true });
+  const referrer = previousUrl;
+  previousUrl = location.href;
+  if (w.umami) return umamiTrack(undefined, undefined, referrer);
+  document.querySelector('script[data-website-id]')?.addEventListener('load', () => umamiTrack(undefined, undefined, referrer), { once: true });
 }
 
 // page_view on first load and on every Astro View Transitions navigation.
@@ -71,7 +75,7 @@ document.addEventListener(
       params[name] = value;
     }
     w.gtag?.('event', el.dataset.track, params);
-    if (el.dataset.track) w.umami?.track(el.dataset.track, params);
+    if (el.dataset.track) umamiTrack(el.dataset.track, params);
   },
   { capture: true },
 );

@@ -9,16 +9,33 @@ export type AnalyticsEvent =
   | { name: 'whatsapp_click'; params: { location: string } };
 
 type Gtag = (...args: unknown[]) => void;
+type UmamiPayload = Record<string, unknown>;
 export interface Umami {
-  track: (event?: string, data?: Record<string, unknown>) => void;
+  track: (event?: string | ((props: UmamiPayload) => UmamiPayload), data?: Record<string, unknown>) => void;
+}
+
+/**
+ * Umami call with the *current* URL and title. Auto-tracking is off (View Transitions), so the
+ * tracker's own URL would otherwise stay on the first page of the visit.
+ */
+export function umamiTrack(name?: string, data?: Record<string, unknown>, referrer?: string): void {
+  if (typeof window === 'undefined') return;
+  const umami = (window as unknown as { umami?: Umami }).umami;
+  umami?.track((props) => ({
+    ...props,
+    url: location.href,
+    title: document.title,
+    ...(referrer !== undefined ? { referrer } : {}),
+    ...(name ? { name, data } : {}),
+  }));
 }
 
 /** Sends a custom event to GA4 (queued until consent) and to cookieless Umami. */
 export function trackEvent<E extends AnalyticsEvent>(name: E['name'], params: E['params']): void {
   if (typeof window === 'undefined') return;
-  const w = window as unknown as { gtag?: Gtag; umami?: Umami };
-  w.gtag?.('event', name, params);
-  w.umami?.track(name, params);
+  const gtag = (window as unknown as { gtag?: Gtag }).gtag;
+  gtag?.('event', name, params);
+  umamiTrack(name, params);
 }
 
 /** data-* attributes picked up by the delegated click listener in src/scripts/analytics.ts */
