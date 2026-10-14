@@ -50,4 +50,4 @@ Disallow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://aldeacosmin.ro/sitemap-index.xml
+Sitemap: https://aldeacosmin.ro/sitemap.xml

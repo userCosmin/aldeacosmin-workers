@@ -39,7 +39,7 @@ ${SOCIALS.map((s) => `- [${s.label} ${s.handle}](${s.url}): ${s.description}`).j
 
 - [llms-full.txt](${SITE.url}/llms-full.txt): conținutul complet al site-ului în Markdown (proiecte, masive și toate jurnalele).
 - [Galerie foto](${SITE.url}/galerie): fotografii de peisaj din munții României.
-- [Sitemap](${SITE.url}/sitemap-index.xml)
+- [Sitemap](${SITE.url}/sitemap.xml)
 - [RSS](${SITE.url}/rss.xml)
 `;
   return new Response(body, { headers: { 'Content-Type': 'text/plain; charset=utf-8' } });
