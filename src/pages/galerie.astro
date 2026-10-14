@@ -1,0 +1,52 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/layout/PageHero.astro';
+import GalleryLightbox from '../components/ui/GalleryLightbox';
+import { GALLERY } from '../data/gallery';
+import { MASSIFS } from '../data/massifs';
+import { PERSON_ID, collectionPageNode, type Crumb } from '../lib/schema';
+import { SITE } from '../data/site';
+import { cfImage } from '../lib/image';
+
+const crumbs: Crumb[] = [
+  { name: 'Acasă', href: '/' },
+  { name: 'Galerie', href: '/galerie' },
+];
+const title = 'Galerie Foto — Peisaje din munții României';
+const description = `${GALLERY.length} fotografii de peisaj din Retezat, Făgăraș, Apuseni, Rodnei, Țarcu, Trascău, Maramureș și Cindrel, surprinse pas cu pas de Aldea Cosmin.`;
+
+const filters = MASSIFS.filter((m) => GALLERY.some((g) => g.massif === m.slug)).map((m) => ({ slug: m.slug, name: m.name }));
+const galleryNode = {
+  '@type': 'ImageGallery',
+  '@id': `${SITE.url}/galerie#gallery`,
+  name: 'Galerie foto — munții României',
+  url: `${SITE.url}/galerie`,
+  author: { '@id': PERSON_ID },
+  image: GALLERY.slice(0, 24).map((g) => ({
+    '@type': 'ImageObject',
+    contentUrl: g.src,
+    thumbnailUrl: cfImage(g.src, { width: 480, height: 360 }),
+    name: g.title,
+    creator: { '@id': PERSON_ID },
+    copyrightNotice: '© Aldea Cosmin',
+  })),
+};
+---
+
+<BaseLayout title={title} description={description} breadcrumbs={crumbs} schema={[collectionPageNode('/galerie', title, description), galleryNode]}>
+  <PageHero
+    eyebrow="Fotografie"
+    title="Galerie Foto"
+    subtitle={`Peisaje din munții României surprinse pas cu pas — ${GALLERY.length} de cadre din ${filters.length} masive.`}
+    crumbs={crumbs}
+  />
+  <section aria-label="Fotografii" class="container-x pt-4">
+    <GalleryLightbox
+      client:visible
+      items={GALLERY.map((g) => ({ src: g.src, title: g.title, massif: g.massif, type: 'image' as const }))}
+      filters={filters}
+      initialCount={16}
+      step={16}
+    />
+  </section>
+</BaseLayout>

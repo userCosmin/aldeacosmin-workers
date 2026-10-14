@@ -1,0 +1,19 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "aldeacosmin-ro",
+  "main": "@astrojs/cloudflare/entrypoints/server",
+  "compatibility_date": "2026-10-12",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  // Fully prerendered site: the adapter emits an assets-only Worker config in dist/client/wrangler.json
+  // and `wrangler deploy` picks it up via .wrangler/deploy/config.json.
+  "assets": {
+    "directory": "./dist/client",
+    "binding": "ASSETS",
+    // /povesti -> povesti.html without trailing-slash redirects (matches build.format: 'file')
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page"
+  },
+  "observability": {
+    "enabled": true
+  }
+}

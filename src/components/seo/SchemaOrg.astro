@@ -1,0 +1,19 @@
+---
+import { breadcrumbNode, personNode, websiteNode, type Crumb, type SchemaNode } from '../../lib/schema';
+
+interface Props {
+  breadcrumbs?: Crumb[];
+  nodes?: SchemaNode[];
+}
+
+const { breadcrumbs = [], nodes = [] } = Astro.props;
+
+const graph = {
+  '@context': 'https://schema.org',
+  '@graph': [personNode(), websiteNode(), ...(breadcrumbs.length > 1 ? [breadcrumbNode(breadcrumbs)] : []), ...nodes],
+};
+// Escape "<" so story text can never close the script element.
+const json = JSON.stringify(graph).replace(/</g, '\\u003c');
+---
+
+<script type="application/ld+json" set:html={json} />

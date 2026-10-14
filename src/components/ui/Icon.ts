@@ -1,0 +1,47 @@
+import {
+  BookOpen,
+  BriefcaseBusiness,
+  Camera,
+  Clapperboard,
+  Clock,
+  Code2,
+  Gauge,
+  House,
+  LineChart,
+  Mail,
+  MapPin,
+  Mountain,
+  MountainSnow,
+  Route,
+  Server,
+  TrendingUp,
+  Trophy,
+  UserRound,
+  Video,
+  type LucideIcon,
+} from 'lucide-react';
+
+/** Icons addressable by name from Astro (props must be serializable). */
+export const ICONS = {
+  home: House,
+  book: BookOpen,
+  mountain: Mountain,
+  'mountain-snow': MountainSnow,
+  briefcase: BriefcaseBusiness,
+  user: UserRound,
+  mail: Mail,
+  code: Code2,
+  server: Server,
+  chart: LineChart,
+  camera: Camera,
+  video: Video,
+  film: Clapperboard,
+  pin: MapPin,
+  route: Route,
+  ascent: TrendingUp,
+  clock: Clock,
+  summit: Trophy,
+  gauge: Gauge,
+} satisfies Record<string, LucideIcon>;
+
+export type IconName = keyof typeof ICONS;

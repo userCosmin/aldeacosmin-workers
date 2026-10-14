@@ -1,0 +1,103 @@
+---
+import { PERSON, SOCIALS } from '../../data/site';
+import { trackAttrs } from '../../lib/analytics';
+import SocialIcon from '../ui/SocialIcon.astro';
+
+const year = new Date().getFullYear();
+const columns = [
+  {
+    title: 'Explorează',
+    links: [
+      { href: '/povesti', label: 'Povești din munte' },
+      { href: '/muntii', label: 'Masive montane' },
+      { href: '/galerie', label: 'Galerie foto' },
+    ],
+  },
+  {
+    title: 'Web',
+    links: [
+      { href: '/portofoliu', label: 'Portofoliu' },
+      { href: '/despre', label: 'Despre mine' },
+      { href: '/contact', label: 'Contact' },
+    ],
+  },
+  {
+    title: 'Resurse',
+    links: [
+      { href: '/rss.xml', label: 'RSS povești' },
+      { href: '/llms.txt', label: 'llms.txt' },
+      { href: '/confidentialitate', label: 'Confidențialitate & cookies' },
+    ],
+  },
+];
+---
+
+<footer class="relative mt-24 border-t border-border">
+  <div class="pointer-events-none absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-accent/50 to-transparent"></div>
+  <div class="container-x grid gap-12 py-16 md:grid-cols-[1.4fr_2fr]">
+    <div class="space-y-5">
+      <a href="/" class="inline-flex items-center gap-3">
+        <span class="grid size-10 place-items-center rounded-xl bg-accent font-display text-lg font-semibold text-accent-ink">AC</span>
+        <span class="font-display text-xl">{PERSON.shortName}</span>
+      </a>
+      <p class="max-w-sm text-sm leading-relaxed text-muted">
+        {PERSON.role} din {PERSON.city}, pasionat de securitate cibernetică. Platforme web rapide, soluții cu AI și jurnale din munții României.
+      </p>
+      <p class="font-mono text-xs tracking-wider text-accent">“{PERSON.motto}”</p>
+      <ul class="flex gap-2" aria-label="Profiluri sociale">
+        {
+          SOCIALS.map((s) => (
+            <li>
+              <a
+                href={s.url}
+                rel="me noopener"
+                target="_blank"
+                aria-label={`${s.label} — ${s.handle}`}
+                class="grid size-11 place-items-center rounded-full border border-border text-muted transition hover:-translate-y-0.5 hover:border-accent hover:text-accent"
+                {...trackAttrs('social_profile_click', { platform: s.platform, location: 'footer' })}
+              >
+                <SocialIcon platform={s.platform} class="size-5" />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+    <div class="grid grid-cols-2 gap-8 sm:grid-cols-3">
+      {
+        columns.map((col) => (
+          <nav aria-label={col.title}>
+            <p class="eyebrow mb-4 text-muted">{col.title}</p>
+            <ul class="space-y-3 text-sm">
+              {col.links.map((l) => (
+                <li>
+                  <a href={l.href} class="text-foreground/80 transition-colors hover:text-accent">
+                    {l.label}
+                  </a>
+                </li>
+              ))}
+              {col.title === 'Resurse' && (
+                <li>
+                  <button type="button" data-open-consent class="cursor-pointer text-foreground/80 transition-colors hover:text-accent">
+                    Setări cookie-uri
+                  </button>
+                </li>
+              )}
+            </ul>
+          </nav>
+        ))
+      }
+    </div>
+  </div>
+  <div class="border-t border-border">
+    <div class="container-x py-6 text-xs text-muted">
+      <p>© {year} {PERSON.name} · Alba Iulia, România</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.addEventListener('click', (e) => {
+    if ((e.target as Element | null)?.closest('[data-open-consent]')) window.dispatchEvent(new CustomEvent('ac:open-consent'));
+  });
+</script>

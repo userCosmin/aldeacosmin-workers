@@ -1,0 +1,75 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/layout/PageHero.astro';
+import StoryExplorer from '../../components/ui/StoryExplorer';
+import StatBadges from '../../components/ui/StatBadges';
+import { STORIES, STORY_TOTALS, toCard } from '../../data/stories';
+import { MASSIFS } from '../../data/massifs';
+import { formatInt, formatKm } from '../../lib/format';
+import { collectionPageNode, PERSON_ID, type Crumb } from '../../lib/schema';
+import { SITE } from '../../data/site';
+
+const crumbs: Crumb[] = [
+  { name: 'Acasă', href: '/' },
+  { name: 'Povești', href: '/povesti' },
+];
+const title = 'Povești din Munte — Jurnale de drumeție din România';
+const description =
+  'Jurnale de drumeție și analize tehnice de traseu din Retezat, Făgăraș, Apuseni, Rodnei, Țarcu, Trascău, Maramureș și Cindrel: distanță, ascensiune, profil altimetric, gradient și fotografii.';
+
+const massifs = MASSIFS.map((m) => ({ slug: m.slug, name: m.name, count: STORIES.filter((s) => s.massif === m.slug).length }))
+  .filter((m) => m.count > 0)
+  .sort((a, b) => b.count - a.count);
+
+const listNode = {
+  '@type': 'ItemList',
+  name: 'Povești din Munte',
+  numberOfItems: STORIES.length,
+  itemListElement: STORIES.map((s, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    url: `${SITE.url}/povesti/${s.slug}`,
+    name: s.title,
+  })),
+};
+const blogNode = {
+  '@type': 'Blog',
+  '@id': `${SITE.url}/povesti#blog`,
+  name: 'Povești din Munte',
+  url: `${SITE.url}/povesti`,
+  inLanguage: 'ro-RO',
+  author: { '@id': PERSON_ID },
+  blogPost: STORIES.map((s) => ({ '@id': `${SITE.url}/povesti/${s.slug}#article` })),
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  breadcrumbs={crumbs}
+  schema={[collectionPageNode('/povesti', title, description), blogNode, listNode]}
+>
+  <PageHero
+    eyebrow="Jurnal de drumeție"
+    title="Povești din Munte"
+    subtitle="Jurnale de drumeție, analize tehnice de traseu și peisaje din România sălbatică — fiecare cu distanță, ascensiune, vârfuri și galerie foto."
+    crumbs={crumbs}
+  >
+    <StatBadges
+      size="lg"
+      className="mt-10"
+      badges={[
+        { icon: 'book', label: 'Jurnale', value: String(STORY_TOTALS.stories) },
+        { icon: 'route', label: 'Distanță totală', value: formatKm(Math.round(STORY_TOTALS.distanceKm)) },
+        { icon: 'ascent', label: 'Ascensiune totală', value: `+${formatInt(STORY_TOTALS.ascentM)} m` },
+        { icon: 'summit', label: 'Vârfuri atinse', value: String(STORY_TOTALS.summits) },
+        { icon: 'mountain', label: 'Masive', value: String(massifs.length) },
+      ]}
+    />
+  </PageHero>
+
+  <section aria-labelledby="lista-title" class="container-x pt-6">
+    <h2 id="lista-title" class="sr-only">Toate poveștile</h2>
+    <StoryExplorer client:load stories={STORIES.map(toCard)} massifs={massifs} />
+  </section>
+</BaseLayout>

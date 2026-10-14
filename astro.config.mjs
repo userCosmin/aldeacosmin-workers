@@ -1,0 +1,84 @@
+// @ts-check
+import { defineConfig, fontProviders } from 'astro/config';
+import react from '@astrojs/react';
+import sitemap from '@astrojs/sitemap';
+import cloudflare from '@astrojs/cloudflare';
+import tailwindcss from '@tailwindcss/vite';
+import { readFileSync } from 'node:fs';
+
+/** @type {{ slug: string, date: string }[]} */
+const stories = JSON.parse(readFileSync(new URL('./src/data/stories.json', import.meta.url), 'utf8'));
+const storyDates = new Map(stories.map((s) => [`https://aldeacosmin.ro/povesti/${s.slug}`, s.date]));
+
+// Self-hosted variable fonts (Fontsource files) through Astro's Fonts API: metric-matched
+// fallbacks keep layout shift near zero while the woff2 files load. latin-ext covers ă, ș, ț.
+const LATIN = 'U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD';
+const LATIN_EXT = 'U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF';
+/**
+ * @param {string} pkg @param {string} file @param {'normal' | 'italic'} [style]
+ * @returns {[any, ...any[]]}
+ */
+const variants = (pkg, file, style = 'normal') =>
+  /** @type {[any, ...any[]]} */ ([
+    ['latin', LATIN],
+    ['latin-ext', LATIN_EXT],
+  ].map(([subset, range]) => ({
+    src: [`@fontsource-variable/${pkg}/files/${file}-${subset}-wght-${style}.woff2`],
+    weight: '100 900',
+    style,
+    unicodeRange: [range],
+  })));
+
+// https://astro.build/config
+export default defineConfig({
+  site: 'https://aldeacosmin.ro',
+  // Keeps the URLs already indexed from the old site (/povesti, /muntii/retezat …) — no trailing slash.
+  trailingSlash: 'never',
+  build: { format: 'file', inlineStylesheets: 'always' },
+  prefetch: { prefetchAll: false, defaultStrategy: 'hover' },
+  // Fully static site: no sessions, so no KV namespace gets provisioned on deploy.
+  session: false,
+  fonts: [
+    {
+      provider: fontProviders.local(),
+      name: 'Inter',
+      cssVariable: '--font-inter',
+      fallbacks: ['ui-sans-serif', 'system-ui', 'sans-serif'],
+      options: { variants: variants('inter', 'inter') },
+    },
+    {
+      provider: fontProviders.local(),
+      name: 'Fraunces',
+      cssVariable: '--font-fraunces',
+      fallbacks: ['Georgia', 'serif'],
+      // Headline font is preloaded; `optional` means it never swaps in late and re-wraps headings.
+      display: 'optional',
+      options: {
+        variants: variants('fraunces', 'fraunces'),
+      },
+    },
+    {
+      provider: fontProviders.local(),
+      name: 'JetBrains Mono',
+      cssVariable: '--font-jetbrains',
+      fallbacks: ['ui-monospace', 'monospace'],
+      options: { variants: variants('jetbrains-mono', 'jetbrains-mono') },
+    },
+  ],
+  integrations: [
+    react(),
+    sitemap({
+      filter: (page) => !page.includes('/404'),
+      serialize(item) {
+        const date = storyDates.get(item.url.replace(/\/$/, ''));
+        if (date) item.lastmod = new Date(date).toISOString();
+        return item;
+      },
+    }),
+  ],
+  // Images are resized on the fly by Cloudflare on media.aldeacosmin.ro (/cdn-cgi/image), see src/lib/image.ts.
+  adapter: cloudflare({ imageService: 'passthrough' }),
+  vite: {
+    plugins: [tailwindcss()],
+  },
+});

@@ -1,0 +1,124 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/layout/PageHero.astro';
+import SectionHeading from '../components/ui/SectionHeading.astro';
+import SocialCards from '../components/ui/SocialCards.astro';
+import { PERSON, SITE, SOCIALS, WHATSAPP } from '../data/site';
+import WhatsAppIcon from '../components/ui/WhatsAppIcon.astro';
+import { trackAttrs } from '../lib/analytics';
+import { PERSON_ID, type Crumb } from '../lib/schema';
+
+const crumbs: Crumb[] = [
+  { name: 'Acasă', href: '/' },
+  { name: 'Contact', href: '/contact' },
+];
+const title = 'Contact — Proiecte web, AI și colaborări foto-video';
+const description =
+  'Contactează-l pe Aldea Cosmin din Alba Iulia pe WhatsApp pentru proiecte web, implementări AI, SEO, marketing online sau colaborări de fotografie și videografie montană.';
+
+const instagram = SOCIALS.find((s) => s.platform === 'instagram')!;
+const paths = [
+  {
+    eyebrow: 'Proiect web sau AI',
+    title: 'Website, platformă sau implementare AI',
+    text: 'Site de prezentare, catalog de produse, platformă corporate, chatbot sau asistent AI, automatizări cu LLM-uri, SEO tehnic, GEO sau tracking GA4 — spune-mi unde ești și unde vrei să ajungi.',
+    cta: `Scrie-mi pe WhatsApp · ${WHATSAPP.display}`,
+    href: WHATSAPP.url,
+    track: trackAttrs('whatsapp_click', { location: 'contact-card' }),
+  },
+  {
+    eyebrow: 'Munte & media',
+    title: 'Drumeții, foto și video',
+    text: 'Colaborări foto-video outdoor, întrebări despre un traseu sau o tură împreună — cel mai rapid ajungi la mine printr-un mesaj pe Instagram.',
+    cta: 'Mesaj pe Instagram',
+    href: instagram.url,
+    track: trackAttrs('social_profile_click', { platform: 'instagram', location: 'contact-dm' }),
+  },
+];
+const checklist = ['Ce tip de proiect ai în minte', 'Link spre site-ul actual (dacă există)', 'Termenul dorit de lansare', 'Bugetul orientativ'];
+
+const contactNode = {
+  '@type': 'ContactPage',
+  '@id': `${SITE.url}/contact#contact`,
+  url: `${SITE.url}/contact`,
+  name: title,
+  inLanguage: 'ro-RO',
+  about: { '@id': PERSON_ID },
+};
+---
+
+<BaseLayout title={title} description={description} breadcrumbs={crumbs} schema={[contactNode]}>
+  <PageHero
+    eyebrow="Contact"
+    title="Hai să construim ceva. Sau să urcăm ceva."
+    subtitle={`Lucrez din ${PERSON.city}, cu clienți din Transilvania și din toată țara. Alege drumul potrivit mai jos.`}
+    crumbs={crumbs}
+  />
+
+  <section aria-label="Cum mă poți contacta" class="container-x grid gap-4 pt-4 md:grid-cols-2">
+    {
+      paths.map((p, i) => (
+        <a
+          data-reveal
+          style={`--reveal-i:${i}`}
+          href={p.href}
+          target="_blank"
+          rel="noopener"
+          class="spotlight-card group flex flex-col gap-4 p-7 transition-transform duration-500 hover:-translate-y-1 md:p-9"
+          {...p.track}
+        >
+          <p class="eyebrow">{p.eyebrow}</p>
+          <h2 class="text-3xl leading-tight font-medium">{p.title}</h2>
+          <p class="leading-relaxed text-muted">{p.text}</p>
+          <span class="mt-auto inline-flex items-center gap-2 pt-4 font-semibold text-accent">
+            {p.cta}
+            <span aria-hidden="true" class="transition-transform group-hover:translate-x-1">
+              →
+            </span>
+            <span class="sr-only">(se deschide într-o filă nouă)</span>
+          </span>
+        </a>
+      ))
+    }
+  </section>
+
+  <section class="container-x grid gap-4 pt-4 md:grid-cols-[1.2fr_1fr]">
+    <div data-reveal class="rounded-3xl border border-border bg-card p-7 md:p-9">
+      <p class="eyebrow mb-4">Pentru un răspuns rapid</p>
+      <ul class="space-y-3">
+        {
+          checklist.map((c) => (
+            <li class="flex items-start gap-3">
+              <span aria-hidden="true" class="mt-0.5 grid size-6 shrink-0 place-items-center rounded-full bg-accent/15 text-xs text-accent ring-1 ring-accent/30">
+                ✓
+              </span>
+              {c}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+    <div data-reveal class="grain relative isolate overflow-hidden rounded-3xl border border-border bg-card p-7 md:p-9">
+      <div class="aurora -z-10 opacity-30"><span></span><span></span><span></span></div>
+      <p class="eyebrow mb-4">Locație</p>
+      <p class="font-display text-3xl">{PERSON.city}, România</p>
+      <p class="mt-2 text-muted">Județul {PERSON.region} · proiecte în toată țara</p>
+      <a
+        href={WHATSAPP.url}
+        target="_blank"
+        rel="noopener"
+        class="mt-6 inline-flex items-center gap-2 font-mono text-sm text-foreground transition-colors hover:text-[#25d366]"
+        {...trackAttrs('whatsapp_click', { location: 'contact-location' })}
+      >
+        <WhatsAppIcon class="size-4 text-[#25d366]" />
+        <span class="sr-only">WhatsApp: </span>{WHATSAPP.display}
+      </a>
+      <p class="mt-3 font-mono text-xs text-muted">46.07° N · 23.58° E</p>
+    </div>
+  </section>
+
+  <section aria-labelledby="social-title" class="container-x pt-24">
+    <SectionHeading id="social-title" eyebrow="Profiluri oficiale" title="Urmărește traseele în timp real" />
+    <SocialCards location="contact" />
+  </section>
+</BaseLayout>

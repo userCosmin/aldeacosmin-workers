@@ -1,0 +1,54 @@
+---
+import { SOCIALS } from '../../data/site';
+import { trackAttrs } from '../../lib/analytics';
+import SocialIcon from './SocialIcon.astro';
+
+interface Props {
+  /** Where the cards are rendered — sent as the GA4 `location` parameter. */
+  location: string;
+  class?: string;
+}
+const { location, class: className = '' } = Astro.props;
+
+const tone = {
+  instagram: 'from-[#f58529]/25 via-[#dd2a7b]/20 to-[#8134af]/25',
+  facebook: 'from-[#1877f2]/25 via-[#1877f2]/10 to-transparent',
+  youtube: 'from-[#ff0033]/25 via-[#ff0033]/10 to-transparent',
+} as const;
+const cta = { instagram: 'Urmărește', facebook: 'Dă like', youtube: 'Abonează-te' } as const;
+---
+
+<ul class:list={['grid gap-4 md:grid-cols-3', className]}>
+  {
+    SOCIALS.map((s, i) => (
+      <li data-reveal style={`--reveal-i:${i}`}>
+        <a
+          href={s.url}
+          target="_blank"
+          rel="me noopener"
+          class="spotlight-card group flex h-full flex-col gap-6 p-6 transition-transform duration-500 hover:-translate-y-1"
+          {...trackAttrs('social_profile_click', { platform: s.platform, location })}
+        >
+          <div class:list={['pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br opacity-60 transition-opacity duration-500 group-hover:opacity-100', tone[s.platform]]} />
+          <div class="relative z-[3] flex items-center justify-between">
+            <span class="grid size-12 place-items-center rounded-2xl border border-border bg-surface/80 text-foreground transition-transform duration-500 group-hover:scale-110 group-hover:rotate-[-6deg]">
+              <SocialIcon platform={s.platform} class="size-6" />
+            </span>
+            <span class="font-mono text-xs text-muted">{s.handle}</span>
+          </div>
+          <div class="relative z-[3]">
+            <p class="font-display text-2xl">{s.label}</p>
+            <p class="mt-2 text-sm leading-relaxed text-muted">{s.description}</p>
+          </div>
+          <span class="relative z-[3] mt-auto inline-flex items-center gap-2 text-sm font-semibold text-accent">
+            {cta[s.platform]}
+            <span aria-hidden="true" class="transition-transform duration-300 group-hover:translate-x-1">
+              →
+            </span>
+            <span class="sr-only">(se deschide într-o filă nouă)</span>
+          </span>
+        </a>
+      </li>
+    ))
+  }
+</ul>

@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { STORIES } from '../data/stories';
+
+const links = [
+  { href: '/', label: 'Acasă' },
+  { href: '/povesti', label: 'Povești din munte' },
+  { href: '/muntii', label: 'Masive montane' },
+  { href: '/portofoliu', label: 'Portofoliu web' },
+];
+const latest = STORIES[0];
+---
+
+<BaseLayout title="Pagină negăsită (404)" description="Poteca pe care o cauți s-a pierdut printre brazi." noindex>
+  <section class="grain relative isolate flex min-h-[85svh] items-center overflow-hidden pt-28 pb-16">
+    <div class="aurora -z-10 opacity-40"><span></span><span></span><span></span></div>
+    <div class="container-x">
+      <p class="eyebrow fade-up">Eroare 404 · Altitudine necunoscută</p>
+      <h1 class="fade-up mt-4 text-[clamp(4rem,2rem+12vw,12rem)] leading-none font-medium text-gradient" style="--d:0.1s">404</h1>
+      <p class="fade-up mt-4 max-w-xl text-xl text-muted" style="--d:0.2s">Poteca pe care o cauți s-a pierdut printre brazi. Hai să te readucem pe marcaj.</p>
+      <ul class="fade-up mt-10 flex flex-wrap gap-2" style="--d:0.3s">
+        {
+          links.map((l) => (
+            <li>
+              <a href={l.href} class="inline-flex h-12 items-center rounded-full border border-border px-5 transition-colors hover:border-accent hover:text-accent">
+                {l.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      {
+        latest && (
+          <p class="fade-up mt-10 text-sm text-muted" style="--d:0.4s">
+            Sau citește cea mai nouă poveste:{' '}
+            <a href={`/povesti/${latest.slug}`} class="text-accent underline underline-offset-4">
+              {latest.title}
+            </a>
+          </p>
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>

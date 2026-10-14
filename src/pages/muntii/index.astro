@@ -1,0 +1,92 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/layout/PageHero.astro';
+import SpotlightBento, { type BentoItem } from '../../components/motion/SpotlightBento';
+import StatBadges from '../../components/ui/StatBadges';
+import { MASSIFS, massifStats } from '../../data/massifs';
+import { STORY_TOTALS } from '../../data/stories';
+import { GALLERY } from '../../data/gallery';
+import { cfImage, cfSrcSet } from '../../lib/image';
+import { formatAscent, formatInt, formatKm } from '../../lib/format';
+import { collectionPageNode, type Crumb } from '../../lib/schema';
+import { SITE } from '../../data/site';
+
+const crumbs: Crumb[] = [
+  { name: 'Acasă', href: '/' },
+  { name: 'Munții', href: '/muntii' },
+];
+const title = 'Masivele Montane — Retezat, Făgăraș, Apuseni, Rodnei, Țarcu și alții';
+const description =
+  'Masivele montane documentate de Aldea Cosmin: Retezat, Făgăraș, Apuseni, Rodnei, Trascău, Maramureș, Cindrel, Țarcu și Cetățile Dacice — cu distanțe, ascensiune, vârfuri, povești și galerii foto.';
+
+const spans = [
+  'md:col-span-2 md:row-span-2',
+  'md:col-span-2',
+  'md:col-span-2',
+  'md:col-span-1',
+  'md:col-span-1',
+  'md:col-span-1',
+  'md:col-span-1',
+  'md:col-span-2',
+  'md:col-span-2',
+];
+
+const items: BentoItem[] = MASSIFS.map((m, i) => {
+  const st = massifStats(m.slug);
+  const big = i === 0;
+  return {
+    eyebrow: `${m.range} · ${m.counties}`,
+    title: m.fullName,
+    description: m.tagline,
+    href: `/muntii/${m.slug}`,
+    image: cfImage(m.image, { width: big ? 1100 : 760, height: big ? 900 : 520 }),
+    imageSrcSet: cfSrcSet(m.image, big ? [700, 1100, 1500] : [480, 760, 1100], { ratio: big ? 11 / 9 : 76 / 52 }),
+    imageAlt: '',
+    className: spans[i] ?? 'md:col-span-2',
+    stats: [
+      { value: String(st.stories), label: st.stories === 1 ? 'poveste' : 'povești' },
+      { value: formatKm(Math.round(st.distanceKm * 10) / 10), label: 'distanță' },
+      { value: formatAscent(st.ascentM), label: 'D+' },
+    ],
+  };
+});
+
+const listNode = {
+  '@type': 'ItemList',
+  name: 'Masive montane documentate',
+  numberOfItems: MASSIFS.length,
+  itemListElement: MASSIFS.map((m, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    item: { '@id': `${SITE.url}/muntii/${m.slug}#place`, '@type': m.slug === 'cetati-dacice' ? 'Place' : 'Mountain', name: m.fullName, url: `${SITE.url}/muntii/${m.slug}` },
+  })),
+};
+---
+
+<BaseLayout title={title} description={description} breadcrumbs={crumbs} schema={[collectionPageNode('/muntii', title, description), listNode]}>
+  <PageHero
+    eyebrow="Explorează"
+    title="Masivele Montane"
+    subtitle="Munții care mi-au modelat poveștile și fotografiile — de la lacurile glaciare ale Retezatului la potcoava Țarcului și calcarul Trascăului."
+    crumbs={crumbs}
+  >
+    <StatBadges
+      size="lg"
+      className="mt-10"
+      badges={[
+        { icon: 'mountain', label: 'Zone montane', value: String(MASSIFS.length) },
+        { icon: 'route', label: 'Distanță documentată', value: formatKm(Math.round(STORY_TOTALS.distanceKm)) },
+        { icon: 'ascent', label: 'Ascensiune', value: `+${formatInt(STORY_TOTALS.ascentM)} m` },
+        { icon: 'summit', label: 'Vârfuri atinse', value: String(STORY_TOTALS.summits) },
+        { icon: 'camera', label: 'Fotografii', value: String(GALLERY.length) },
+      ]}
+    />
+  </PageHero>
+
+  <section aria-labelledby="masive-title" class="container-x pt-6">
+    <h2 id="masive-title" class="sr-only">Masive montane documentate</h2>
+    <div data-reveal>
+      <SpotlightBento client:visible items={items} />
+    </div>
+  </section>
+</BaseLayout>

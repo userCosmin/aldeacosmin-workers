@@ -1,0 +1,68 @@
+---
+import { SOCIALS } from '../../data/site';
+import { trackAttrs } from '../../lib/analytics';
+import { youtubeThumb } from '../../data/videos';
+
+interface Props {
+  videos: { id: string; title: string }[];
+}
+const { videos } = Astro.props;
+const [main, ...rest] = videos;
+const youtube = SOCIALS.find((s) => s.platform === 'youtube')!;
+---
+
+{
+  main && (
+    <div class="grid gap-4 lg:grid-cols-[1.6fr_1fr]">
+      <div data-reveal>
+        <lite-youtube videoid={main.id} title={main.title} class="!my-0" />
+      </div>
+      <ul class="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
+        {rest.slice(0, 4).map((v, i) => (
+          <li data-reveal style={`--reveal-i:${i + 1}`}>
+            <a
+              href={`https://www.youtube.com/watch?v=${v.id}`}
+              target="_blank"
+              rel="noopener"
+              class="group flex items-center gap-4 rounded-2xl border border-border bg-card p-2.5 pr-4 transition-colors hover:border-accent/50"
+              {...trackAttrs('social_profile_click', { platform: 'youtube', location: 'video-showcase' })}
+            >
+              <span class="relative aspect-video w-32 shrink-0 overflow-hidden rounded-xl bg-surface">
+                <img
+                  src={youtubeThumb(v.id, 'mqdefault')}
+                  alt=""
+                  width="320"
+                  height="180"
+                  loading="lazy"
+                  decoding="async"
+                  class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                />
+                <span class="absolute inset-0 grid place-items-center bg-black/25 text-white">
+                  <svg viewBox="0 0 24 24" class="size-6" fill="currentColor" aria-hidden="true">
+                    <path d="M8 5.14v13.72a1 1 0 0 0 1.52.85l10.9-6.86a1 1 0 0 0 0-1.7L9.52 4.29A1 1 0 0 0 8 5.14Z" />
+                  </svg>
+                </span>
+              </span>
+              <span class="text-sm leading-snug font-medium transition-colors group-hover:text-accent">
+                {v.title}
+                <span class="sr-only"> (YouTube, se deschide într-o filă nouă)</span>
+              </span>
+            </a>
+          </li>
+        ))}
+        <li data-reveal style="--reveal-i:5">
+          <a
+            href={youtube.url}
+            target="_blank"
+            rel="me noopener"
+            class="flex h-full min-h-16 items-center justify-between rounded-2xl bg-[#ff0033] px-5 py-4 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5"
+            {...trackAttrs('social_profile_click', { platform: 'youtube', location: 'video-showcase-cta' })}
+          >
+            Toate cele 108+ videoclipuri pe YouTube
+            <span aria-hidden="true">↗</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  )
+}

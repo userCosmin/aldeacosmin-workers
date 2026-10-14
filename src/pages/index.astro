@@ -1,0 +1,210 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import HeroMotion from '../components/motion/HeroMotion';
+import SpotlightBento, { type BentoItem } from '../components/motion/SpotlightBento';
+import PortfolioGrid from '../components/ui/PortfolioGrid';
+import StoryCard from '../components/ui/StoryCard';
+import SectionHeading from '../components/ui/SectionHeading.astro';
+import SocialCards from '../components/ui/SocialCards.astro';
+import VideoShowcase from '../components/ui/VideoShowcase.astro';
+import { HERO_STATS, SITE, SOCIALS, WHATSAPP } from '../data/site';
+import { trackAttrs } from '../lib/analytics';
+import WhatsAppIcon from '../components/ui/WhatsAppIcon.astro';
+import { PROJECTS } from '../data/portfolio';
+import { STORIES, STORY_TOTALS, toCard } from '../data/stories';
+import { MASSIFS, massifStats } from '../data/massifs';
+import { FEATURED_VIDEOS } from '../data/videos';
+import { cfImage, cfSrcSet } from '../lib/image';
+import { formatInt, formatKm } from '../lib/format';
+
+const heroWidths = [640, 960, 1280, 1600, 2000];
+const hero = {
+  src: cfImage(SITE.heroImage, { width: 1600 }),
+  srcSet: cfSrcSet(SITE.heroImage, heroWidths),
+  sizes: '100vw',
+  alt: 'Panoramă de iarnă în Munții Retezat, cu creste acoperite de zăpadă sub un cer albastru',
+};
+
+const youtube = SOCIALS.find((s) => s.platform === 'youtube')!;
+const greenRetezat = 'https://media.aldeacosmin.ro/galerie/muntii-retezat-3.webp';
+
+const identity: BentoItem[] = [
+  {
+    eyebrow: 'Web Development',
+    title: 'Platforme web rapide, scalabile și ușor de găsit',
+    description:
+      'Portaluri corporate bilingve, cataloage cu sute de produse, fluxuri de rezervare și integrări AI — construite prin vibe coding pentru viteză, conversii și vizibilitate în Google și în motoarele AI.',
+    icon: 'code',
+    href: '/portofoliu',
+    className: 'md:col-span-2 md:row-span-2',
+    stats: [
+      { value: `${PROJECTS.length}+`, label: 'platforme live' },
+      { value: '800+', label: 'produse în catalog' },
+      { value: 'RO / EN', label: 'bilingv' },
+    ],
+    tags: PROJECTS.map((p) => p.domain),
+  },
+  {
+    eyebrow: 'Explorare montană',
+    title: `Jurnale tehnice din ${MASSIFS.length} zone montane`,
+    description:
+      'Profil altimetric, gradient, segmente de 2 km și condiții meteo — fiecare tură devine o poveste și o analiză utilă pentru cine vrea să urce pe același traseu.',
+    icon: 'mountain-snow',
+    href: '/muntii',
+    image: cfImage(greenRetezat, { width: 900, height: 700 }),
+    imageSrcSet: cfSrcSet(greenRetezat, [600, 900, 1200], { ratio: 9 / 7 }),
+    imageAlt: 'Căldări glaciare și creste în Munții Retezat',
+    className: 'md:col-span-2 md:row-span-2',
+    stats: [
+      { value: formatKm(Math.round(STORY_TOTALS.distanceKm)), label: 'documentați' },
+      { value: `+${formatInt(STORY_TOTALS.ascentM)} m`, label: 'ascensiune' },
+      { value: String(STORY_TOTALS.stories), label: 'jurnale' },
+    ],
+  },
+  {
+    eyebrow: 'Infrastructură & securitate',
+    title: 'Rapid & sigur',
+    description: 'Performanță pe care o simt vizitatorii și siguranță pe care n-o observă — dar contează.',
+    icon: 'server',
+    className: 'md:col-span-1',
+  },
+  {
+    eyebrow: 'AI & Vibe Coding',
+    title: 'AI aplicat',
+    description: 'Asistenți, chatboți și automatizări cu LLM-uri, plus SEO, GEO și GA4 ca să te găsească și oamenii, și AI-ul.',
+    icon: 'chart',
+    className: 'md:col-span-1',
+  },
+  {
+    eyebrow: 'Foto & video',
+    title: '108+ videoclipuri',
+    description: 'Fotografie de peisaj și jurnale video filmate pe creste, la răsărit și în furtună.',
+    icon: 'film',
+    href: youtube.url,
+    external: true,
+    track: { 'data-track': 'social_profile_click', 'data-track-platform': 'youtube', 'data-track-location': 'home-bento' },
+    className: 'md:col-span-1',
+  },
+  {
+    eyebrow: 'Baza',
+    title: 'Alba Iulia',
+    description: 'Cu Trascăul, Apusenii și Retezatul la îndemână pentru turele de weekend.',
+    icon: 'pin',
+    href: '/despre',
+    className: 'md:col-span-1',
+  },
+];
+
+const recent = STORIES.slice(0, 3).map(toCard);
+const marquee = MASSIFS.map((m) => ({ ...m, stats: massifStats(m.slug) }));
+---
+
+<BaseLayout title={SITE.title} description={SITE.description} preloadImage={{ srcset: hero.srcSet, sizes: hero.sizes }}>
+  <HeroMotion client:idle image={hero} stats={HERO_STATS} />
+
+  <section id="identitate" aria-labelledby="identitate-title" class="container-x scroll-mt-24 pt-24 md:pt-32">
+    <SectionHeading
+      id="identitate-title"
+      eyebrow="Două trasee, aceeași disciplină"
+      title="Web developer, AI entuziast & vibe coding în timpul săptămânii. Explorator montan în weekend."
+      description="Aceeași atenție la detalii, fie că optimizez un catalog de produse sau calculez gradientul unei creste."
+    />
+    <div data-reveal>
+      <SpotlightBento client:visible items={identity} />
+    </div>
+  </section>
+
+  <section aria-labelledby="portofoliu-title" class="container-x pt-28 md:pt-36">
+    <SectionHeading
+      id="portofoliu-title"
+      eyebrow="Portofoliu web · Nou"
+      title="Platforme construite pentru branduri reale"
+      description="De la grupuri industriale cu 9 divizii la hoteluri istorice din Alba Iulia."
+      link={{ href: '/portofoliu', label: `Toate cele ${PROJECTS.length} proiecte` }}
+    />
+    <PortfolioGrid client:visible projects={PROJECTS.filter((p) => p.featured)} showFilters={false} />
+  </section>
+
+  <section aria-labelledby="povesti-title" class="container-x pt-28 md:pt-36">
+    <SectionHeading id="povesti-title" eyebrow="Jurnal de drumeție" title="Povești recente din munte" link={{ href: '/povesti', label: 'Toate poveștile' }} />
+    <ul class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        recent.map((s, i) => (
+          <li data-reveal style={`--reveal-i:${i}`}>
+            <StoryCard story={s} />
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section aria-label="Masive montane documentate" class="pt-24 md:pt-32">
+    <div class="marquee overflow-hidden border-y border-border py-6">
+      <div class="marquee-track">
+        {
+          [0, 1].map((copy) => (
+            <ul class="flex shrink-0 items-center gap-10 pr-10" aria-hidden={copy === 1 ? 'true' : undefined}>
+              {marquee.map((m) => (
+                <li class="flex items-center gap-4 whitespace-nowrap">
+                  <a
+                    href={`/muntii/${m.slug}`}
+                    tabindex={copy === 1 ? -1 : undefined}
+                    class="font-display text-3xl transition-colors hover:text-accent md:text-5xl"
+                  >
+                    {m.name}
+                  </a>
+                  {m.stats.maxAltitudeM > 0 && <span class="font-mono text-xs text-accent">▲ {formatInt(m.stats.maxAltitudeM)} m</span>}
+                  <span aria-hidden="true" class="text-muted">
+                    ✦
+                  </span>
+                </li>
+              ))}
+            </ul>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="media-title" class="container-x pt-24 md:pt-32">
+    <SectionHeading
+      id="media-title"
+      eyebrow="Media & social"
+      title="Munții, filmați pas cu pas"
+      description="Peste 108 videoclipuri pe YouTube, cadre de pe creste pe Instagram și jurnale pe Facebook."
+    />
+    <VideoShowcase videos={FEATURED_VIDEOS} />
+    <SocialCards location="home" class="mt-6" />
+  </section>
+
+  <section class="container-x pt-28 md:pt-36">
+    <div data-reveal class="grain relative isolate overflow-hidden rounded-[2rem] border border-border bg-card px-6 py-14 text-center md:px-16 md:py-20">
+      <div class="aurora -z-10 opacity-40"><span></span><span></span><span></span></div>
+      <p class="eyebrow mb-4">Colaborări web & AI</p>
+      <h2 class="mx-auto max-w-3xl text-[clamp(2rem,1.4rem+2.6vw,3.6rem)] leading-[1.05] font-medium">Ai un proiect web sau AI în minte? Hai să-l ducem pe vârf.</h2>
+      <p class="mx-auto mt-5 max-w-xl text-lg text-muted">
+        De la platforme corporate și cataloage de produse la implementări AI — chatboți și asistenți antrenați pe conținutul tău, automatizări cu LLM-uri și prototipuri construite rapid prin vibe coding. Scrie-mi și găsim împreună traseul potrivit.
+      </p>
+      <div class="mt-9 flex flex-wrap justify-center gap-3">
+        <a
+          href="/contact"
+          class="inline-flex h-14 items-center gap-2 rounded-full bg-accent px-7 font-semibold text-accent-ink transition-colors hover:bg-accent-strong"
+        >
+          Hai să vorbim <span aria-hidden="true">→</span>
+        </a>
+        <a
+          href={WHATSAPP.url}
+          target="_blank"
+          rel="noopener"
+          class="inline-flex h-14 items-center gap-2 rounded-full bg-[#25d366] px-7 font-semibold text-[#063b1f] transition-transform hover:-translate-y-0.5"
+          {...trackAttrs('whatsapp_click', { location: 'home-cta' })}
+        >
+          <WhatsAppIcon class="size-5" /> WhatsApp
+        </a>
+        <a href="/portofoliu" class="glass inline-flex h-14 items-center rounded-full px-7 font-semibold transition-colors hover:border-border-strong">
+          Vezi portofoliul
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

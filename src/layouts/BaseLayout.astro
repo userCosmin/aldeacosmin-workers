@@ -1,0 +1,80 @@
+---
+import '../styles/global.css';
+import { ClientRouter } from 'astro:transitions';
+import { Font } from 'astro:assets';
+import SEOHead, { type SEOProps } from '../components/seo/SEOHead.astro';
+import SchemaOrg from '../components/seo/SchemaOrg.astro';
+import GoogleAnalytics from '../components/analytics/GoogleAnalytics.astro';
+import Footer from '../components/layout/Footer.astro';
+import NavbarDock from '../components/ui/NavbarDock';
+import CookieConsent from '../components/ui/CookieConsent';
+import ElevationScrollBar from '../components/motion/ElevationScrollBar';
+import WhatsAppButton from '../components/ui/WhatsAppButton.astro';
+import type { Crumb, SchemaNode } from '../lib/schema';
+
+interface Props extends SEOProps {
+  breadcrumbs?: Crumb[];
+  schema?: SchemaNode[];
+  /** Responsive LCP image to preload (hero). */
+  preloadImage?: { srcset: string; sizes: string };
+}
+
+const { breadcrumbs = [], schema = [], preloadImage, ...seo } = Astro.props;
+---
+
+<!doctype html>
+<html lang="ro" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <script is:inline>
+      (function () {
+        var t = 'dark';
+        try {
+          t = localStorage.getItem('ac-theme') === 'light' ? 'light' : 'dark';
+        } catch (e) {}
+        document.documentElement.dataset.theme = t;
+        document.documentElement.classList.add('js');
+      })();
+    </script>
+    <meta name="theme-color" content="#090a0f" />
+    <meta name="color-scheme" content="dark light" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="preconnect" href="https://media.aldeacosmin.ro" />
+    <Font cssVariable="--font-inter" />
+    <Font cssVariable="--font-fraunces" preload={[{ style: 'normal' }]} />
+    <Font cssVariable="--font-jetbrains" />
+    {
+      preloadImage && (
+        <link rel="preload" as="image" imagesrcset={preloadImage.srcset} imagesizes={preloadImage.sizes} fetchpriority="high" />
+      )
+    }
+    <SEOHead {...seo} />
+    <SchemaOrg breadcrumbs={breadcrumbs} nodes={schema} />
+    <GoogleAnalytics />
+    <ClientRouter />
+  </head>
+  <body class="pb-24 md:pb-0">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-full focus:bg-accent focus:px-5 focus:py-3 focus:font-semibold focus:text-accent-ink"
+    >
+      Sari la conținut
+    </a>
+    <ElevationScrollBar client:idle transition:persist="elevation-bar" />
+    <NavbarDock client:idle transition:persist="navbar-dock" initialPath={Astro.url.pathname} />
+    <main id="main" tabindex="-1" class="outline-none">
+      <slot />
+    </main>
+    <Footer />
+    <WhatsAppButton transition:persist="whatsapp-button" />
+    <CookieConsent client:idle transition:persist="cookie-consent" />
+    <script>
+      import '../scripts/site';
+      import '../scripts/analytics';
+      import '../scripts/lite-youtube';
+    </script>
+  </body>
+</html>

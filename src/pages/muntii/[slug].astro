@@ -1,0 +1,142 @@
+---
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/layout/PageHero.astro';
+import StatBadges from '../../components/ui/StatBadges';
+import StoryCard from '../../components/ui/StoryCard';
+import GalleryLightbox from '../../components/ui/GalleryLightbox';
+import SectionHeading from '../../components/ui/SectionHeading.astro';
+import VideoShowcase from '../../components/ui/VideoShowcase.astro';
+import { MASSIFS, massifStats, type Massif } from '../../data/massifs';
+import { storiesByMassif, toCard } from '../../data/stories';
+import { GALLERY } from '../../data/gallery';
+import { formatAscent, formatInt, formatKm } from '../../lib/format';
+import { ogImage } from '../../lib/image';
+import { placeNode, type Crumb } from '../../lib/schema';
+import { SITE } from '../../data/site';
+
+export const getStaticPaths = (() => MASSIFS.map((massif) => ({ params: { slug: massif.slug }, props: { massif } }))) satisfies GetStaticPaths;
+
+const { massif } = Astro.props as { massif: Massif };
+const stats = massifStats(massif.slug);
+const stories = storiesByMassif(massif.slug);
+const photos = GALLERY.filter((g) => g.massif === massif.slug);
+const others = MASSIFS.filter((m) => m.slug !== massif.slug);
+
+const crumbs: Crumb[] = [
+  { name: 'Acasă', href: '/' },
+  { name: 'Munții', href: '/muntii' },
+  { name: massif.fullName, href: `/muntii/${massif.slug}` },
+];
+const title = `${massif.fullName} — trasee, vârfuri și fotografii`;
+const description = `${massif.tagline} ${stats.stories} ${stats.stories === 1 ? 'jurnal' : 'jurnale'} de drumeție, ${formatKm(Math.round(stats.distanceKm * 10) / 10)} și ${formatAscent(stats.ascentM)} documentate în ${massif.fullName} (${massif.counties}).`;
+
+const badges = [
+  { icon: 'route' as const, label: 'Distanță documentată', value: formatKm(Math.round(stats.distanceKm * 10) / 10) },
+  { icon: 'ascent' as const, label: 'Ascensiune totală', value: formatAscent(stats.ascentM) },
+  { icon: 'summit' as const, label: 'Vârfuri atinse', value: stats.summits.length ? `${stats.summits.length} ${stats.summits.length === 1 ? 'vârf' : 'vârfuri'}` : '—' },
+  { icon: 'clock' as const, label: 'Timp de citire', value: `${stats.readingMinutes} min` },
+  { icon: stats.videos ? ('video' as const) : ('camera' as const), label: 'Galerie foto / video', value: `${stats.photos} foto · ${stats.videos} video` },
+];
+
+const listNode = {
+  '@type': 'ItemList',
+  name: `Povești din ${massif.fullName}`,
+  itemListElement: stories.map((s, i) => ({ '@type': 'ListItem', position: i + 1, url: `${SITE.url}/povesti/${s.slug}`, name: s.title })),
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  image={ogImage(massif.image)}
+  breadcrumbs={crumbs}
+  schema={[placeNode(massif), listNode]}
+>
+  <PageHero
+    eyebrow={`${massif.range} · ${massif.counties}`}
+    title={massif.fullName}
+    subtitle={massif.tagline}
+    crumbs={crumbs}
+    image={massif.image}
+    imageAlt={massif.fullName}
+    tall
+  >
+    <StatBadges size="lg" badges={badges} className="mt-10" />
+  </PageHero>
+
+  <section aria-labelledby="despre-masiv" class="container-x grid gap-10 pt-16 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
+    <div data-reveal>
+      <p class="eyebrow mb-4">Despre masiv</p>
+      <h2 id="despre-masiv" class="text-[clamp(1.9rem,1.4rem+2vw,3rem)] leading-tight font-medium">De ce merită {massif.fullName}</h2>
+      <div class="mt-6 space-y-5 text-lg leading-relaxed text-foreground/85">
+        {massif.intro.map((p) => <p>{p}</p>)}
+      </div>
+      {
+        stats.maxAltitudeM > 0 && (
+          <p class="mt-6 font-mono text-sm text-accent">
+            ▲ Altitudine maximă atinsă: {formatInt(stats.maxAltitudeM)} m
+          </p>
+        )
+      }
+    </div>
+    <ul class="grid content-start gap-3">
+      {
+        massif.highlights.map((h, i) => (
+          <li data-reveal style={`--reveal-i:${i}`} class="spotlight-card p-5">
+            <p class="font-display text-xl">{h.title}</p>
+            <p class="mt-1.5 text-sm leading-relaxed text-muted">{h.text}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  {
+    stories.length > 0 && (
+      <section aria-labelledby="povesti-masiv" class="container-x pt-24">
+        <SectionHeading id="povesti-masiv" eyebrow="Jurnale" title={`Povești din ${massif.name}`} link={{ href: `/povesti?masiv=${massif.slug}`, label: 'Filtrează în povești' }} />
+        <ul class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {stories.map((s, i) => (
+            <li data-reveal style={`--reveal-i:${i}`}>
+              <StoryCard story={toCard(s)} />
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+
+  {
+    massif.videos.length > 0 && (
+      <section aria-labelledby="video-masiv" class="container-x pt-24">
+        <SectionHeading id="video-masiv" eyebrow="Video" title={`${massif.name} pe YouTube`} />
+        <VideoShowcase videos={massif.videos} />
+      </section>
+    )
+  }
+
+  {
+    photos.length > 0 && (
+      <section aria-labelledby="foto-masiv" class="container-x pt-24">
+        <SectionHeading id="foto-masiv" eyebrow="Fotografii" title={`Imagini din ${massif.name}`} />
+        <GalleryLightbox client:visible label={`Fotografii din ${massif.fullName}`} items={photos.map((p) => ({ src: p.src, title: p.title, type: 'image' as const }))} />
+      </section>
+    )
+  }
+
+  <nav aria-labelledby="alte-masive" class="container-x pt-24">
+    <h2 id="alte-masive" class="eyebrow mb-5">Alte masive</h2>
+    <ul class="flex flex-wrap gap-2">
+      {
+        others.map((m) => (
+          <li>
+            <a href={`/muntii/${m.slug}`} class="inline-flex h-11 items-center rounded-full border border-border px-5 text-sm transition-colors hover:border-accent hover:text-accent">
+              {m.name}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</BaseLayout>

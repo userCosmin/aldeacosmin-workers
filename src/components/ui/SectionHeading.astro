@@ -1,0 +1,32 @@
+---
+interface Props {
+  eyebrow: string;
+  title: string;
+  description?: string;
+  id?: string;
+  link?: { href: string; label: string };
+  class?: string;
+}
+const { eyebrow, title, description, id, link, class: className = '' } = Astro.props;
+---
+
+<div data-reveal class:list={['mb-10 flex flex-col gap-6 md:mb-14 md:flex-row md:items-end md:justify-between', className]}>
+  <div class="max-w-2xl">
+    <p class="eyebrow mb-4">{eyebrow}</p>
+    <h2 id={id} class="text-[clamp(2rem,1.4rem+2.6vw,3.4rem)] leading-[1.05] font-medium">{title}</h2>
+    {description && <p class="mt-4 text-lg leading-relaxed text-muted">{description}</p>}
+  </div>
+  {
+    link && (
+      <a
+        href={link.href}
+        class="group inline-flex shrink-0 items-center gap-2 self-start rounded-full border border-border px-5 py-3 text-sm font-semibold transition-colors hover:border-accent hover:text-accent md:self-auto"
+      >
+        {link.label}
+        <span aria-hidden="true" class="transition-transform duration-300 group-hover:translate-x-1">
+          →
+        </span>
+      </a>
+    )
+  }
+</div>

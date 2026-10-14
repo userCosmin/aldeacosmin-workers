@@ -1,0 +1,247 @@
+---
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/layout/PageHero.astro';
+import StatBadges from '../../components/ui/StatBadges';
+import StoryCard from '../../components/ui/StoryCard';
+import GalleryLightbox from '../../components/ui/GalleryLightbox';
+import { STORIES, toCard, type Story } from '../../data/stories';
+import { getMassif } from '../../data/massifs';
+import { formatAscent, formatKm } from '../../lib/format';
+import { ogImage } from '../../lib/image';
+import { blogPostingNode, placeNode, type Crumb } from '../../lib/schema';
+
+export const getStaticPaths = (() => STORIES.map((story) => ({ params: { slug: story.slug }, props: { story } }))) satisfies GetStaticPaths;
+
+const { story } = Astro.props as { story: Story };
+const massif = getMassif(story.massif);
+const index = STORIES.findIndex((s) => s.slug === story.slug);
+const newer = STORIES[index - 1];
+const older = STORIES[index + 1];
+const related = [...STORIES.filter((s) => s.massif === story.massif && s.slug !== story.slug), ...STORIES.filter((s) => s.massif !== story.massif)]
+  .slice(0, 3)
+  .map(toCard);
+
+const crumbs: Crumb[] = [
+  { name: 'Acasă', href: '/' },
+  { name: 'Povești', href: '/povesti' },
+  { name: story.title, href: `/povesti/${story.slug}` },
+];
+
+const photos = story.gallery.filter((g) => g.type === 'image').length;
+const clips = story.gallery.filter((g) => g.type === 'video').length + story.videos.length;
+const extraVideos = story.videos.filter((v) => !story.content.includes(`videoid="${v.id}"`));
+
+const badges = [
+  { icon: 'route' as const, label: 'Distanță', value: formatKm(story.metrics.distanceKm) },
+  { icon: 'ascent' as const, label: 'Ascensiune', value: formatAscent(story.metrics.ascentM) },
+  {
+    icon: 'summit' as const,
+    label: 'Vârfuri atinse',
+    value: story.summits.length ? `${story.summits.length} ${story.summits.length === 1 ? 'vârf' : 'vârfuri'}` : '—',
+  },
+  { icon: 'clock' as const, label: 'Timp de citire', value: `${story.readingMinutes} min` },
+  {
+    icon: clips ? ('video' as const) : ('camera' as const),
+    label: clips ? 'Galerie foto / video' : 'Galerie foto',
+    value: clips ? `${photos} foto · ${clips} video` : `${photos} foto`,
+  },
+];
+
+const hikeRows = [
+  ['Dificultate', story.hike.difficulty],
+  ['Durată', story.hike.duration],
+  ['Distanță', story.hike.distance],
+  ['Diferență de nivel', story.hike.elevation],
+  ['Altitudine maximă', story.hike.maxAltitude],
+  ['Punct de start', story.hike.startPoint],
+  ['Sezon recomandat', story.hike.season],
+  ...(story.hike.markings ? [['Marcaje', story.hike.markings]] : []),
+] as const;
+
+const schema = [blogPostingNode(story, massif), ...(massif ? [placeNode(massif)] : [])];
+---
+
+<BaseLayout
+  title={story.title}
+  description={story.excerpt}
+  image={ogImage(story.image)}
+  imageAlt={story.title}
+  type="article"
+  publishedTime={story.date}
+  breadcrumbs={crumbs}
+  schema={schema}
+>
+  <article>
+    <PageHero
+      eyebrow={`${story.massifName} · ${story.dateLabel}`}
+      title={story.title}
+      subtitle={story.excerpt}
+      crumbs={crumbs}
+      image={story.image}
+      tall
+    >
+      <p class="fade-up mt-6 font-mono text-xs tracking-[0.14em] text-muted uppercase" style="--d:0.6s">
+        de <a href="/despre" rel="author" class="text-foreground hover:text-accent">Aldea Cosmin</a> ·
+        <time datetime={story.date}>{story.dateLabel}</time> · {story.hike.difficulty}
+      </p>
+      <StatBadges size="lg" badges={badges} className="mt-8" />
+    </PageHero>
+
+    <div class="container-x grid gap-12 pt-10 lg:grid-cols-[minmax(0,1fr)_19rem] lg:gap-16">
+      <div class="min-w-0">
+        <div class="article-body max-w-3xl" set:html={story.content} />
+
+        {
+          extraVideos.length > 0 && (
+            <section aria-labelledby="video-title" class="mt-16 max-w-3xl">
+              <h2 id="video-title" class="text-3xl font-medium">
+                Video din teren
+              </h2>
+              {extraVideos.map((v) => (
+                <lite-youtube videoid={v.id} title={v.title} />
+              ))}
+            </section>
+          )
+        }
+
+        {
+          story.gallery.length > 0 && (
+            <section aria-labelledby="galerie-title" class="mt-20">
+              <p class="eyebrow mb-3">Galerie</p>
+              <h2 id="galerie-title" class="mb-8 text-3xl font-medium md:text-4xl">
+                Imagini din traseu
+              </h2>
+              <GalleryLightbox
+                client:visible
+                label={`Galerie foto — ${story.title}`}
+                initialCount={12}
+                items={story.gallery.map((g) => ({ src: g.src, title: g.title, caption: g.caption, type: g.type }))}
+              />
+            </section>
+          )
+        }
+
+        {
+          story.references.length > 0 && (
+            <section aria-labelledby="surse-title" class="mt-16 max-w-3xl rounded-3xl border border-border bg-card p-6 md:p-8">
+              <h2 id="surse-title" class="font-sans text-sm font-semibold tracking-[0.14em] text-muted uppercase">
+                Surse & resurse utile
+              </h2>
+              <ul class="mt-4 space-y-2">
+                {story.references.map((r) => (
+                  <li>
+                    <a href={r.url} target="_blank" rel="noopener" class="text-foreground/85 underline decoration-border-strong underline-offset-4 hover:text-accent">
+                      {r.title}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )
+        }
+      </div>
+
+      <aside class="lg:pt-2">
+        <div class="space-y-5 lg:sticky lg:top-28">
+          {
+            story.toc.length > 2 && (
+              <nav aria-label="Cuprins" data-toc class="hidden rounded-3xl border border-border bg-card p-5 lg:block">
+                <p class="eyebrow mb-3">Cuprins</p>
+                <ol class="space-y-1 text-sm">
+                  {story.toc.map((t) => (
+                    <li>
+                      <a
+                        href={`#${t.id}`}
+                        class="block rounded-lg px-2 py-1.5 text-muted transition-colors hover:text-foreground aria-[current=true]:bg-accent/10 aria-[current=true]:text-accent"
+                      >
+                        {t.text}
+                      </a>
+                    </li>
+                  ))}
+                </ol>
+              </nav>
+            )
+          }
+          <section aria-labelledby="info-title" class="rounded-3xl border border-border bg-card p-5">
+            <h2 id="info-title" class="eyebrow mb-4">
+              Informații traseu
+            </h2>
+            <dl class="space-y-3 text-sm">
+              {
+                hikeRows.map(([k, v]) => (
+                  <div class="flex flex-col gap-0.5 border-b border-border pb-3 last:border-0 last:pb-0">
+                    <dt class="text-xs text-muted">{k}</dt>
+                    <dd class="font-medium">{v}</dd>
+                  </div>
+                ))
+              }
+              {
+                story.summits.length > 0 && (
+                  <div class="flex flex-col gap-1.5">
+                    <dt class="text-xs text-muted">Vârfuri atinse</dt>
+                    <dd class="flex flex-wrap gap-1.5">
+                      {story.summits.map((p) => (
+                        <span class="rounded-full bg-accent/12 px-2.5 py-1 font-mono text-xs text-accent ring-1 ring-accent/30">▲ {p}</span>
+                      ))}
+                    </dd>
+                  </div>
+                )
+              }
+            </dl>
+          </section>
+          {
+            massif && (
+              <a
+                href={`/muntii/${massif.slug}`}
+                class="spotlight-card group flex items-center justify-between gap-3 p-5"
+              >
+                <span>
+                  <span class="eyebrow block">Masiv</span>
+                  <span class="mt-1 block font-display text-xl">{massif.fullName}</span>
+                </span>
+                <span aria-hidden="true" class="text-accent transition-transform group-hover:translate-x-1">
+                  →
+                </span>
+              </a>
+            )
+          }
+        </div>
+      </aside>
+    </div>
+  </article>
+
+  <nav aria-label="Navigare între povești" class="container-x mt-20 grid gap-4 md:grid-cols-2">
+    {
+      older ? (
+        <a href={`/povesti/${older.slug}`} class="spotlight-card group p-6">
+          <span class="eyebrow">← Povestea anterioară</span>
+          <span class="mt-2 block font-display text-xl leading-snug group-hover:text-accent">{older.title}</span>
+        </a>
+      ) : (
+        <span />
+      )
+    }
+    {
+      newer && (
+        <a href={`/povesti/${newer.slug}`} class="spotlight-card group p-6 md:text-right">
+          <span class="eyebrow">Povestea următoare →</span>
+          <span class="mt-2 block font-display text-xl leading-snug group-hover:text-accent">{newer.title}</span>
+        </a>
+      )
+    }
+  </nav>
+
+  <section aria-labelledby="related-title" class="container-x pt-20">
+    <h2 id="related-title" class="mb-8 text-3xl font-medium">Îți poate plăcea și</h2>
+    <ul class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        related.map((s, i) => (
+          <li data-reveal style={`--reveal-i:${i}`}>
+            <StoryCard story={s} />
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>

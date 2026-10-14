@@ -1,0 +1,155 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/layout/PageHero.astro';
+import AnimatedCounter from '../components/motion/AnimatedCounter';
+import SectionHeading from '../components/ui/SectionHeading.astro';
+import SocialCards from '../components/ui/SocialCards.astro';
+import { HERO_STATS, PERSON, SITE } from '../data/site';
+import { MASSIFS } from '../data/massifs';
+import { PROJECTS } from '../data/portfolio';
+import { cfImage, cfSrcSet } from '../lib/image';
+import { PERSON_ID, type Crumb } from '../lib/schema';
+
+const crumbs: Crumb[] = [
+  { name: 'Acasă', href: '/' },
+  { name: 'Despre', href: '/despre' },
+];
+const title = 'Despre Aldea Cosmin — Web Developer, AI entuziast & Vibe Coding';
+const description =
+  'Aldea Cosmin din Alba Iulia: web developer, AI entuziast & vibe coding, pasionat de securitate cibernetică, munte, fotografie de peisaj și videografie outdoor.';
+
+const profiles = [
+  {
+    eyebrow: 'Pe munte',
+    title: 'Munte, fotografie și videografie outdoor',
+    text: 'Documentez natura sălbatică a României în drumeții solicitante: creste de peste 2.000 m, lacuri glaciare, ture de iarnă și trasee lungi de o zi. Fiecare tură devine un jurnal — cu profil altimetric, gradient și condiții meteo — plus fotografii de peisaj și filmări montane.',
+    points: [
+      'Jurnale tehnice de traseu: distanță, D+, segmente și gradient',
+      'Fotografie de peisaj și cadre de pe creste',
+      'Peste 108 videoclipuri montane pe YouTube',
+    ],
+  },
+  {
+    eyebrow: 'În cod',
+    title: 'Web development, AI & Vibe Coding',
+    text: 'Construiesc platforme web rapide, scalabile și optimizate pentru branduri importante din Transilvania și din toată țara — de la portaluri corporate bilingve și cataloage de produse la hoteluri și centre de divertisment. Folosesc AI-ul zilnic, atât ca partener de vibe coding, cât și în produsele pe care le livrez.',
+    points: [
+      'Site-uri de prezentare, platforme corporate și cataloage de produse',
+      'Integrări AI: asistenți, chatboți și automatizări cu LLM-uri',
+      'Performanță, viteză de încărcare și disponibilitate',
+      'Pasionat de securitate cibernetică și bune practici de protecție',
+      'SEO tehnic, GEO, GA4 și Google Ads',
+    ],
+  },
+];
+
+const profileNode = {
+  '@type': 'ProfilePage',
+  '@id': `${SITE.url}/despre#profile`,
+  url: `${SITE.url}/despre`,
+  name: title,
+  inLanguage: 'ro-RO',
+  mainEntity: { '@id': PERSON_ID },
+};
+---
+
+<BaseLayout title={title} description={description} type="profile" breadcrumbs={crumbs} schema={[profileNode]}>
+  <PageHero eyebrow="Cunoaște-l pe" title={PERSON.name} subtitle={`${PERSON.role} · Fotograf montan din ${PERSON.city}, România. Pasionat de securitate cibernetică.`} crumbs={crumbs} />
+
+  <section class="container-x grid items-center gap-10 pt-4 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+    <figure data-reveal class="relative">
+      <div class="relative aspect-[4/5] overflow-hidden rounded-[2rem] border border-border">
+        <img
+          src={cfImage(SITE.portraitImage, { width: 800, height: 1000 })}
+          srcset={cfSrcSet(SITE.portraitImage, [480, 800, 1100], { ratio: 0.8 })}
+          sizes="(min-width: 1024px) 40vw, 100vw"
+          width="800"
+          height="1000"
+          alt="Drumeț în geacă roșie pe o creastă înzăpezită, cu munții în fundal"
+          loading="eager"
+          decoding="async"
+          class="h-full w-full object-cover"
+        />
+        <div class="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent"></div>
+        <figcaption class="absolute right-5 bottom-5 left-5 font-mono text-xs tracking-[0.14em] text-white/85 uppercase">
+          “{PERSON.motto}”
+        </figcaption>
+      </div>
+      <div class="absolute -top-4 -right-4 -z-10 h-full w-full rounded-[2rem] border border-accent/30"></div>
+    </figure>
+    <div data-reveal class="space-y-5 text-lg leading-relaxed text-foreground/85">
+      <p class="font-display text-2xl leading-snug text-foreground md:text-3xl">
+        Bun venit! Sunt Cosmin Aldea — iubitor de munte, fotografie și drumeții în natura sălbatică a României, web developer, AI entuziast &amp; vibe coding în Alba Iulia și pasionat de securitate cibernetică.
+      </p>
+      <p>
+        Munții au fost mereu chemarea mea — un loc unde găsesc liniște, inspirație și conexiune autentică cu natura. Prin acest site documentez
+        aventurile montane, ofer inspirație celor care iubesc natura și promovez frumusețea incredibilă a munților României.
+      </p>
+      <p>
+        Fiecare articol este un jurnal personal, o poveste trăită cu bocancii în picioare și camera în mână. Iar în restul săptămânii, aceeași
+        rigoare merge în platformele web pe care le construiesc pentru clienți precum {PROJECTS.slice(0, 3).map((p) => p.client).join(', ')}.
+      </p>
+    </div>
+  </section>
+
+  <section aria-labelledby="profil-dublu" class="container-x pt-24">
+    <SectionHeading id="profil-dublu" eyebrow="Profil dublu" title="Două pasiuni, aceeași atenție la detalii" />
+    <div class="grid gap-4 md:grid-cols-2">
+      {
+        profiles.map((p, i) => (
+          <article data-reveal style={`--reveal-i:${i}`} class="spotlight-card p-7 md:p-9">
+            <p class="eyebrow">{p.eyebrow}</p>
+            <h3 class="mt-3 text-2xl leading-snug font-medium md:text-3xl">{p.title}</h3>
+            <p class="mt-4 leading-relaxed text-muted">{p.text}</p>
+            <ul class="mt-6 space-y-2.5">
+              {p.points.map((pt) => (
+                <li class="flex gap-3 text-sm">
+                  <span aria-hidden="true" class="mt-1.5 size-1.5 shrink-0 rounded-full bg-accent" />
+                  {pt}
+                </li>
+              ))}
+            </ul>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section aria-label="În cifre" class="container-x pt-20">
+    <dl class="grid grid-cols-2 gap-3 lg:grid-cols-4">
+      {
+        HERO_STATS.map((s, i) => (
+          <div data-reveal style={`--reveal-i:${i}`} class="flex flex-col-reverse rounded-3xl border border-border bg-card p-6">
+            <dt class="mt-3 text-sm text-muted">{s.label}</dt>
+            <dd class="font-display text-5xl font-medium">
+              <AnimatedCounter client:visible value={s.value} suffix={s.suffix} />
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
+  </section>
+
+  <section aria-labelledby="masive-favorite" class="container-x pt-24">
+    <SectionHeading id="masive-favorite" eyebrow="Masive favorite" title="Munții care m-au format" link={{ href: '/muntii', label: 'Toate masivele' }} />
+    <ul class="flex flex-wrap gap-2" data-reveal>
+      {
+        MASSIFS.map((m) => (
+          <li>
+            <a href={`/muntii/${m.slug}`} class="inline-flex h-12 items-center gap-2 rounded-full border border-border px-5 transition-colors hover:border-accent hover:text-accent">
+              <span aria-hidden="true" class="text-accent">
+                ▲
+              </span>
+              {m.fullName}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section aria-labelledby="social-title" class="container-x pt-24">
+    <SectionHeading id="social-title" eyebrow="Conectează-te" title="Găsește-mă și pe" />
+    <SocialCards location="despre" />
+  </section>
+</BaseLayout>

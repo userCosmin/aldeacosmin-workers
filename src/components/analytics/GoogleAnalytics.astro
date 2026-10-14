@@ -1,0 +1,32 @@
+---
+import { SITE } from '../../data/site';
+
+/**
+ * GA4 bootstrap (Consent Mode v2, "basic"): gtag() is stubbed immediately so page views and
+ * custom events queue in dataLayer, but gtag.js is only loaded after the visitor accepts
+ * analytics cookies (see src/scripts/analytics.ts and CookieConsent.tsx).
+ */
+const id = SITE.gaId;
+---
+
+<script is:inline define:vars={{ id }}>
+  if (!window.__acAnalytics) {
+    window.__acAnalytics = { id: id, loaded: false };
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () {
+      window.dataLayer.push(arguments);
+    };
+    var granted = false;
+    try {
+      granted = localStorage.getItem('ac-consent') === 'granted';
+    } catch (e) {}
+    window.gtag('consent', 'default', {
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      analytics_storage: granted ? 'granted' : 'denied',
+    });
+    window.gtag('js', new Date());
+    window.gtag('config', id, { send_page_view: false });
+  }
+</script>

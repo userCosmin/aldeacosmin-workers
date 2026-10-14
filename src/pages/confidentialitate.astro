@@ -1,0 +1,103 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/layout/PageHero.astro';
+import { PERSON, SITE } from '../data/site';
+import type { Crumb } from '../lib/schema';
+
+const crumbs: Crumb[] = [
+  { name: 'Acasă', href: '/' },
+  { name: 'Confidențialitate', href: '/confidentialitate' },
+];
+const title = 'Politica de confidențialitate și cookie-uri';
+const description = 'Cum folosește aldeacosmin.ro cookie-urile, Google Analytics 4 și conținutul terț (YouTube, Google Maps) și cum îți poți retrage consimțământul.';
+const updated = '14 octombrie 2026';
+
+const cookies = [
+  { name: '_ga', provider: 'Google Analytics 4', purpose: 'Distinge vizitatorii unici (statistici anonime)', duration: '2 ani', consent: 'Da' },
+  { name: `_ga_${SITE.gaId.replace('G-', '')}`, provider: 'Google Analytics 4', purpose: 'Păstrează starea sesiunii', duration: '2 ani', consent: 'Da' },
+  { name: 'ac-consent (localStorage)', provider: 'aldeacosmin.ro', purpose: 'Reține alegerea ta privind cookie-urile', duration: 'Până la ștergere', consent: 'Nu (necesar)' },
+  { name: 'ac-theme (localStorage)', provider: 'aldeacosmin.ro', purpose: 'Reține tema aleasă (întunecată / luminoasă)', duration: 'Până la ștergere', consent: 'Nu (funcțional)' },
+];
+---
+
+<BaseLayout title={title} description={description} breadcrumbs={crumbs}>
+  <PageHero eyebrow="Legal" title="Confidențialitate & cookie-uri" subtitle={`Ultima actualizare: ${updated}`} crumbs={crumbs} />
+
+  <div class="container-x">
+    <div class="article-body max-w-3xl">
+      <h2 id="cine">Cine administrează site-ul</h2>
+      <p>
+        Site-ul <strong>aldeacosmin.ro</strong> este administrat de <strong>{PERSON.name}</strong>, {PERSON.city}, județul {PERSON.region}, România. Pentru
+        orice întrebare legată de datele tale, scrie-mi prin <a href="/contact">pagina de contact</a>.
+      </p>
+
+      <h2 id="date">Ce date sunt colectate</h2>
+      <p>
+        Site-ul nu are formulare și nu cere date personale. Statisticile de trafic sunt colectate prin <strong>Google Analytics 4</strong> doar după ce
+        accepți cookie-urile analitice. Până atunci, scriptul Google Analytics nu este încărcat deloc.
+      </p>
+      <p>
+        Dacă accepți, Google Analytics colectează informații precum paginile vizitate, durata vizitei, tipul de dispozitiv, browserul și o localizare
+        aproximativă, plus evenimente precum click-urile pe proiectele din portofoliu, pe profilurile sociale, pe butonul WhatsApp și filtrele de masive montane.
+      </p>
+
+      <h2 id="cookies">Cookie-uri și stocare locală</h2>
+      <div class="overflow-x-auto rounded-2xl border border-border">
+        <table class="w-full text-left text-sm">
+          <thead class="bg-surface text-xs tracking-wider text-muted uppercase">
+            <tr>
+              <th class="px-4 py-3">Nume</th>
+              <th class="px-4 py-3">Furnizor</th>
+              <th class="px-4 py-3">Scop</th>
+              <th class="px-4 py-3">Durată</th>
+              <th class="px-4 py-3">Consimțământ</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              cookies.map((c) => (
+                <tr class="border-t border-border">
+                  <td class="px-4 py-3 font-mono text-xs">{c.name}</td>
+                  <td class="px-4 py-3">{c.provider}</td>
+                  <td class="px-4 py-3">{c.purpose}</td>
+                  <td class="px-4 py-3">{c.duration}</td>
+                  <td class="px-4 py-3">{c.consent}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="terti">Conținut terț</h2>
+      <ul>
+        <li>
+          <strong>YouTube</strong> — videoclipurile se încarcă prin domeniul <code>youtube-nocookie.com</code> și doar după ce apeși „Redă”. Până atunci se
+          afișează doar imaginea de previzualizare.
+        </li>
+        <li><strong>Google Maps</strong> — o hartă de traseu încorporată într-un articol, încărcată doar când ajungi la ea în pagină.</li>
+        <li>
+          <strong>Găzduire</strong> — furnizorul de găzduire și livrare a conținutului (inclusiv imaginile de pe <code>media.aldeacosmin.ro</code>) poate procesa adresa IP pentru securitate și livrarea paginilor.
+        </li>
+      </ul>
+
+      <h2 id="drepturi">Drepturile tale</h2>
+      <p>
+        Conform GDPR, ai dreptul de acces, rectificare, ștergere, restricționare și opoziție, precum și dreptul de a-ți retrage oricând consimțământul.
+        Poți depune o plângere la Autoritatea Națională de Supraveghere a Prelucrării Datelor cu Caracter Personal (ANSPDCP).
+      </p>
+
+      <h2 id="alegere">Schimbă-ți alegerea</h2>
+      <p>Poți modifica oricând preferințele privind cookie-urile:</p>
+      <p>
+        <button
+          type="button"
+          data-open-consent
+          class="inline-flex h-12 cursor-pointer items-center rounded-full bg-accent px-6 font-semibold text-accent-ink transition-colors hover:bg-accent-strong"
+        >
+          Deschide setările cookie-urilor
+        </button>
+      </p>
+    </div>
+  </div>
+</BaseLayout>

@@ -1,0 +1,106 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/layout/PageHero.astro';
+import PortfolioGrid from '../components/ui/PortfolioGrid';
+import SectionHeading from '../components/ui/SectionHeading.astro';
+import StatBadges from '../components/ui/StatBadges';
+import { PROJECTS } from '../data/portfolio';
+import { collectionPageNode, portfolioListNode, type Crumb } from '../lib/schema';
+
+const crumbs: Crumb[] = [
+  { name: 'Acasă', href: '/' },
+  { name: 'Portofoliu', href: '/portofoliu' },
+];
+const title = 'Portofoliu Web — Platforme pentru branduri din Transilvania';
+const description =
+  'Portofoliul web al lui Aldea Cosmin: Florea Grup, Petra Pavaje, Hotel Astoria, Hotel Cetate, Hotel Alba Iulia și Arena Play — platforme corporate, cataloage de produse, hoteluri și entertainment VR.';
+
+const approach = [
+  {
+    step: '01',
+    title: 'Arhitectură informațională',
+    text: 'Structură clară pentru divizii, produse, camere sau servicii — vizitatorul ajunge în două click-uri unde are nevoie.',
+  },
+  {
+    step: '02',
+    title: 'Performanță',
+    text: 'Pagini care se încarcă rapid pe orice dispozitiv, cu imagini optimizate și doar codul care aduce valoare vizitatorului.',
+  },
+  {
+    step: '03',
+    title: 'SEO tehnic & GEO',
+    text: 'Date structurate, conținut citabil și arhitectură gândită pentru Google, dar și pentru ChatGPT, Perplexity sau Google AI Overviews.',
+  },
+  {
+    step: '04',
+    title: 'Măsurare & conversii',
+    text: 'GA4, evenimente personalizate și integrare Google Ads, ca deciziile să se bazeze pe date, nu pe impresii.',
+  },
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  breadcrumbs={crumbs}
+  schema={[collectionPageNode('/portofoliu', title, description), portfolioListNode(PROJECTS)]}
+>
+  <PageHero
+    eyebrow="Portofoliu web"
+    title="Website-uri construite pentru branduri reale"
+    subtitle="Platforme corporate, cataloage de produse, hoteluri istorice și entertainment VR — proiecte live, folosite zilnic de clienți din Alba Iulia și din toată țara."
+    crumbs={crumbs}
+  >
+    <StatBadges
+      size="lg"
+      className="mt-10"
+      badges={[
+        { icon: 'briefcase', label: 'Proiecte live', value: String(PROJECTS.length) },
+        { icon: 'gauge', label: 'Industrii', value: '3' },
+        { icon: 'code', label: 'Produse în catalog', value: '800+' },
+        { icon: 'server', label: 'Divizii Florea Grup', value: '9' },
+        { icon: 'pin', label: 'Baza', value: 'Alba Iulia' },
+      ]}
+    />
+  </PageHero>
+
+  <section aria-labelledby="proiecte-title" class="container-x pt-6">
+    <h2 id="proiecte-title" class="sr-only">Proiecte web realizate</h2>
+    <PortfolioGrid client:visible projects={PROJECTS} />
+  </section>
+
+  <section aria-labelledby="abordare-title" class="container-x pt-28 md:pt-36">
+    <SectionHeading
+      id="abordare-title"
+      eyebrow="Abordare"
+      title="Cum construiesc o platformă"
+      description="Același proces pentru un grup industrial cu 9 divizii sau pentru un centru de divertisment."
+    />
+    <ol class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      {
+        approach.map((a, i) => (
+          <li data-reveal style={`--reveal-i:${i}`} class="spotlight-card p-6">
+            <p class="font-mono text-sm text-accent">{a.step}</p>
+            <h3 class="mt-6 text-xl font-medium">{a.title}</h3>
+            <p class="mt-3 text-sm leading-relaxed text-muted">{a.text}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <section class="container-x pt-24">
+    <div data-reveal class="flex flex-col items-start justify-between gap-6 rounded-[2rem] border border-border bg-card p-8 md:flex-row md:items-center md:p-12">
+      <div>
+        <p class="eyebrow mb-3">Următorul proiect</p>
+        <h2 class="text-3xl font-medium md:text-4xl">Brandul tău poate fi următorul aici.</h2>
+      </div>
+      <a
+        href="/contact"
+        class="inline-flex h-14 shrink-0 items-center gap-2 rounded-full bg-accent px-7 font-semibold text-accent-ink transition-colors hover:bg-accent-strong"
+      >
+        Discută un proiect <span aria-hidden="true">→</span>
+      </a>
+    </div>
+  </section>
+</BaseLayout>
