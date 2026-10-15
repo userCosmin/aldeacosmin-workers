@@ -82,6 +82,8 @@ export const SAME_AS = [...SOCIALS.map((s) => s.url), ...OTHER_PROFILES];
 
 const WHATSAPP_NUMBER = '40779255331';
 const WHATSAPP_TEXT = 'Bună, Cosmin! Am văzut site-ul aldeacosmin.ro și aș vrea să discutăm despre un proiect.';
+export const EMAIL = 'contact@aldeacosmin.ro';
+
 export const WHATSAPP = {
   display: '0779 255 331',
   e164: `+${WHATSAPP_NUMBER}`,
@@ -96,7 +98,7 @@ export const HERO_STATS = [
   { value: 1000, suffix: '+', label: 'km de poteci și zeci de mii de metri D+' },
 ];
 
-export type NavIcon = 'home' | 'book' | 'mountain' | 'briefcase' | 'user' | 'mail';
+export type NavIcon = 'home' | 'book' | 'mountain' | 'camera' | 'briefcase' | 'user' | 'mail';
 
 export interface NavItem {
   href: string;
@@ -109,6 +111,7 @@ export const NAV_ITEMS: NavItem[] = [
   { href: '/', label: 'Acasă', icon: 'home' },
   { href: '/povesti', label: 'Povești', icon: 'book' },
   { href: '/muntii', label: 'Munții', icon: 'mountain' },
+  { href: '/galerie', label: 'Galerie', icon: 'camera' },
   { href: '/portofoliu', label: 'Portofoliu', icon: 'briefcase', badge: 'Nou' },
   { href: '/despre', label: 'Despre', icon: 'user' },
   { href: '/contact', label: 'Contact', icon: 'mail' },

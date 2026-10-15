@@ -66,7 +66,7 @@ export default function NavbarDock({ initialPath }: { initialPath: string }) {
                     <a
                       href={item.href}
                       aria-current={active ? 'page' : undefined}
-                      className={`relative flex h-12 w-12 items-center justify-center rounded-full text-sm font-medium transition-colors md:h-11 md:w-auto md:px-4 ${
+                      className={`relative flex h-12 w-11 items-center justify-center rounded-full text-sm font-medium transition-colors md:h-11 md:w-auto md:px-3 lg:px-4 ${
                         active ? 'text-foreground' : 'text-foreground/65 hover:text-foreground'
                       }`}
                     >

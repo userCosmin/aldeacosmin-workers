@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/layout/PageHero.astro';
 import SectionHeading from '../components/ui/SectionHeading.astro';
 import SocialCards from '../components/ui/SocialCards.astro';
-import { PERSON, SITE, SOCIALS, WHATSAPP } from '../data/site';
+import { EMAIL, PERSON, SITE, WHATSAPP } from '../data/site';
 import WhatsAppIcon from '../components/ui/WhatsAppIcon.astro';
 import { trackAttrs } from '../lib/analytics';
 import { PERSON_ID, type Crumb } from '../lib/schema';
@@ -12,27 +12,26 @@ const crumbs: Crumb[] = [
   { name: 'Acasă', href: '/' },
   { name: 'Contact', href: '/contact' },
 ];
-const title = 'Contact — Proiecte web, AI și colaborări foto-video';
+const title = 'Contact — Proiecte web, AI și drumeții';
 const description =
-  'Contactează-l pe Aldea Cosmin din Alba Iulia pe WhatsApp pentru proiecte web, implementări AI, SEO, marketing online sau colaborări de fotografie și videografie montană.';
+  'Contactează-l pe Aldea Cosmin din Alba Iulia pe WhatsApp pentru proiecte web, implementări AI, SEO și marketing online, sau pe email pentru întrebări despre munte și trasee.';
 
-const instagram = SOCIALS.find((s) => s.platform === 'instagram')!;
 const paths = [
   {
     eyebrow: 'Proiect web sau AI',
     title: 'Website, platformă sau implementare AI',
     text: 'Site de prezentare, catalog de produse, platformă corporate, chatbot sau asistent AI, automatizări cu LLM-uri, SEO tehnic, GEO sau tracking GA4 — spune-mi unde ești și unde vrei să ajungi.',
-    cta: `Scrie-mi pe WhatsApp · ${WHATSAPP.display}`,
+    cta: 'Scrie-mi pe WhatsApp',
     href: WHATSAPP.url,
     track: trackAttrs('whatsapp_click', { location: 'contact-card' }),
   },
   {
     eyebrow: 'Munte & media',
     title: 'Drumeții, foto și video',
-    text: 'Colaborări foto-video outdoor, întrebări despre un traseu sau o tură împreună — cel mai rapid ajungi la mine printr-un mesaj pe Instagram.',
-    cta: 'Mesaj pe Instagram',
-    href: instagram.url,
-    track: trackAttrs('social_profile_click', { platform: 'instagram', location: 'contact-dm' }),
+    text: 'Întrebări despre un traseu, condițiile de pe creastă sau o tură împreună — scrie-mi pe email și îți răspund cu drag.',
+    cta: EMAIL,
+    href: `mailto:${EMAIL}`,
+    track: trackAttrs('email_click', { location: 'contact-card' }),
   },
 ];
 const checklist = ['Ce tip de proiect ai în minte', 'Link spre site-ul actual (dacă există)', 'Termenul dorit de lansare', 'Bugetul orientativ'];
@@ -62,8 +61,8 @@ const contactNode = {
           data-reveal
           style={`--reveal-i:${i}`}
           href={p.href}
-          target="_blank"
-          rel="noopener"
+          target={p.href.startsWith('mailto:') ? undefined : '_blank'}
+          rel={p.href.startsWith('mailto:') ? undefined : 'noopener'}
           class="spotlight-card group flex flex-col gap-4 p-7 transition-transform duration-500 hover:-translate-y-1 md:p-9"
           {...p.track}
         >
@@ -75,7 +74,7 @@ const contactNode = {
             <span aria-hidden="true" class="transition-transform group-hover:translate-x-1">
               →
             </span>
-            <span class="sr-only">(se deschide într-o filă nouă)</span>
+            {!p.href.startsWith('mailto:') && <span class="sr-only">(se deschide într-o filă nouă)</span>}
           </span>
         </a>
       ))
@@ -111,7 +110,7 @@ const contactNode = {
         {...trackAttrs('whatsapp_click', { location: 'contact-location' })}
       >
         <WhatsAppIcon class="size-4 text-[#25d366]" />
-        <span class="sr-only">WhatsApp: </span>{WHATSAPP.display}
+        Scrie-mi pe WhatsApp
       </a>
       <p class="mt-3 font-mono text-xs text-muted">46.07° N · 23.58° E</p>
     </div>

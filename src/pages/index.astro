@@ -114,17 +114,6 @@ const marquee = MASSIFS.map((m) => ({ ...m, stats: massifStats(m.slug) }));
     </div>
   </section>
 
-  <section aria-labelledby="portofoliu-title" class="container-x pt-28 md:pt-36">
-    <SectionHeading
-      id="portofoliu-title"
-      eyebrow="Portofoliu web · Nou"
-      title="Platforme construite pentru branduri reale"
-      description="De la grupuri industriale cu 9 divizii la hoteluri istorice din Alba Iulia."
-      link={{ href: '/portofoliu', label: `Toate cele ${PROJECTS.length} proiecte` }}
-    />
-    <PortfolioGrid client:visible projects={PROJECTS.filter((p) => p.featured)} showFilters={false} />
-  </section>
-
   <section aria-labelledby="povesti-title" class="container-x pt-28 md:pt-36">
     <SectionHeading id="povesti-title" eyebrow="Jurnal de drumeție" title="Povești recente din munte" link={{ href: '/povesti', label: 'Toate poveștile' }} />
     <ul class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -136,6 +125,17 @@ const marquee = MASSIFS.map((m) => ({ ...m, stats: massifStats(m.slug) }));
         ))
       }
     </ul>
+  </section>
+
+  <section aria-labelledby="portofoliu-title" class="container-x pt-28 md:pt-36">
+    <SectionHeading
+      id="portofoliu-title"
+      eyebrow="Portofoliu web · Nou"
+      title="Platforme construite pentru branduri reale"
+      description="De la grupuri industriale cu 9 divizii la hoteluri istorice din Alba Iulia."
+      link={{ href: '/portofoliu', label: `Toate cele ${PROJECTS.length} proiecte` }}
+    />
+    <PortfolioGrid client:visible projects={PROJECTS.filter((p) => p.featured)} showFilters={false} />
   </section>
 
   <section aria-label="Masive montane documentate" class="pt-24 md:pt-32">

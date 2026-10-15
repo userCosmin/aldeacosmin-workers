@@ -6,7 +6,8 @@ export type AnalyticsEvent =
   | { name: 'portfolio_project_click'; params: { project_domain: string; location?: string } }
   | { name: 'social_profile_click'; params: { platform: 'instagram' | 'facebook' | 'youtube'; location?: string } }
   | { name: 'mountain_filter_select'; params: { massif_name: string; location?: string } }
-  | { name: 'whatsapp_click'; params: { location: string } };
+  | { name: 'whatsapp_click'; params: { location: string } }
+  | { name: 'email_click'; params: { location: string } };
 
 type Gtag = (...args: unknown[]) => void;
 type UmamiPayload = Record<string, unknown>;
