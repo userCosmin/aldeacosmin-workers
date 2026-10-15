@@ -30,21 +30,6 @@ const greenRetezat = 'https://media.aldeacosmin.ro/galerie/muntii-retezat-3.webp
 
 const identity: BentoItem[] = [
   {
-    eyebrow: 'Web Development',
-    title: 'Platforme web rapide, scalabile și ușor de găsit',
-    description:
-      'Portaluri corporate bilingve, cataloage cu sute de produse, fluxuri de rezervare și integrări AI — construite prin vibe coding pentru viteză, conversii și vizibilitate în Google și în motoarele AI.',
-    icon: 'code',
-    href: '/portofoliu',
-    className: 'md:col-span-2 md:row-span-2',
-    stats: [
-      { value: `${PROJECTS.length}+`, label: 'platforme live' },
-      { value: '800+', label: 'produse în catalog' },
-      { value: 'RO / EN', label: 'bilingv' },
-    ],
-    tags: PROJECTS.map((p) => p.domain),
-  },
-  {
     eyebrow: 'Explorare montană',
     title: `Jurnale tehnice din ${MASSIFS.length} zone montane`,
     description:
@@ -60,6 +45,21 @@ const identity: BentoItem[] = [
       { value: `+${formatInt(STORY_TOTALS.ascentM)} m`, label: 'ascensiune' },
       { value: String(STORY_TOTALS.stories), label: 'jurnale' },
     ],
+  },
+  {
+    eyebrow: 'Web Development',
+    title: 'Platforme web rapide, scalabile și ușor de găsit',
+    description:
+      'Portaluri corporate bilingve, cataloage cu sute de produse, fluxuri de rezervare și integrări AI — construite prin vibe coding pentru viteză, conversii și vizibilitate în Google și în motoarele AI.',
+    icon: 'code',
+    href: '/portofoliu',
+    className: 'md:col-span-2 md:row-span-2',
+    stats: [
+      { value: `${PROJECTS.length}+`, label: 'platforme live' },
+      { value: '800+', label: 'produse în catalog' },
+      { value: 'RO / EN', label: 'bilingv' },
+    ],
+    tags: PROJECTS.map((p) => p.domain),
   },
   {
     eyebrow: 'Infrastructură & securitate',
