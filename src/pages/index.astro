@@ -7,9 +7,7 @@ import StoryCard from '../components/ui/StoryCard';
 import SectionHeading from '../components/ui/SectionHeading.astro';
 import SocialCards from '../components/ui/SocialCards.astro';
 import VideoShowcase from '../components/ui/VideoShowcase.astro';
-import { HERO_STATS, SITE, SOCIALS, WHATSAPP } from '../data/site';
-import { trackAttrs } from '../lib/analytics';
-import WhatsAppIcon from '../components/ui/WhatsAppIcon.astro';
+import { HERO_STATS, SITE } from '../data/site';
 import { PROJECTS } from '../data/portfolio';
 import { STORIES, STORY_TOTALS, toCard } from '../data/stories';
 import { MASSIFS, massifStats } from '../data/massifs';
@@ -25,7 +23,6 @@ const hero = {
   alt: 'Panoramă de iarnă în Munții Retezat, cu creste acoperite de zăpadă sub un cer albastru',
 };
 
-const youtube = SOCIALS.find((s) => s.platform === 'youtube')!;
 const greenRetezat = 'https://media.aldeacosmin.ro/galerie/muntii-retezat-3.webp';
 
 const identity: BentoItem[] = [
@@ -60,38 +57,6 @@ const identity: BentoItem[] = [
       { value: 'RO / EN', label: 'bilingv' },
     ],
     tags: PROJECTS.map((p) => p.domain),
-  },
-  {
-    eyebrow: 'Infrastructură & securitate',
-    title: 'Rapid & sigur',
-    description: 'Performanță pe care o simt vizitatorii și siguranță pe care n-o observă — dar contează.',
-    icon: 'server',
-    className: 'md:col-span-1',
-  },
-  {
-    eyebrow: 'AI & Vibe Coding',
-    title: 'AI aplicat',
-    description: 'Asistenți, chatboți și automatizări cu LLM-uri, plus SEO, GEO și GA4 ca să te găsească și oamenii, și AI-ul.',
-    icon: 'chart',
-    className: 'md:col-span-1',
-  },
-  {
-    eyebrow: 'Foto & video',
-    title: '108+ videoclipuri',
-    description: 'Fotografie de peisaj și jurnale video filmate pe creste, la răsărit și în furtună.',
-    icon: 'film',
-    href: youtube.url,
-    external: true,
-    track: { 'data-track': 'social_profile_click', 'data-track-platform': 'youtube', 'data-track-location': 'home-bento' },
-    className: 'md:col-span-1',
-  },
-  {
-    eyebrow: 'Baza',
-    title: 'Alba Iulia',
-    description: 'Cu Trascăul, Apusenii și Retezatul la îndemână pentru turele de weekend.',
-    icon: 'pin',
-    href: '/despre',
-    className: 'md:col-span-1',
   },
 ];
 
@@ -175,36 +140,5 @@ const marquee = MASSIFS.map((m) => ({ ...m, stats: massifStats(m.slug) }));
     />
     <VideoShowcase videos={FEATURED_VIDEOS} />
     <SocialCards location="home" class="mt-6" />
-  </section>
-
-  <section class="container-x pt-28 md:pt-36">
-    <div data-reveal class="grain relative isolate overflow-hidden rounded-[2rem] border border-border bg-card px-6 py-14 text-center md:px-16 md:py-20">
-      <div class="aurora -z-10 opacity-40"><span></span><span></span><span></span></div>
-      <p class="eyebrow mb-4">Colaborări web & AI</p>
-      <h2 class="mx-auto max-w-3xl text-[clamp(2rem,1.4rem+2.6vw,3.6rem)] leading-[1.05] font-medium">Ai un proiect web sau AI în minte? Hai să-l ducem pe vârf.</h2>
-      <p class="mx-auto mt-5 max-w-xl text-lg text-muted">
-        De la platforme corporate și cataloage de produse la implementări AI — chatboți și asistenți antrenați pe conținutul tău, automatizări cu LLM-uri și prototipuri construite rapid prin vibe coding. Scrie-mi și găsim împreună traseul potrivit.
-      </p>
-      <div class="mt-9 flex flex-wrap justify-center gap-3">
-        <a
-          href="/contact"
-          class="inline-flex h-14 items-center gap-2 rounded-full bg-accent px-7 font-semibold text-accent-ink transition-colors hover:bg-accent-strong"
-        >
-          Hai să vorbim <span aria-hidden="true">→</span>
-        </a>
-        <a
-          href={WHATSAPP.url}
-          target="_blank"
-          rel="noopener"
-          class="inline-flex h-14 items-center gap-2 rounded-full bg-[#25d366] px-7 font-semibold text-[#063b1f] transition-transform hover:-translate-y-0.5"
-          {...trackAttrs('whatsapp_click', { location: 'home-cta' })}
-        >
-          <WhatsAppIcon class="size-5" /> WhatsApp
-        </a>
-        <a href="/portofoliu" class="glass inline-flex h-14 items-center rounded-full px-7 font-semibold transition-colors hover:border-border-strong">
-          Vezi portofoliul
-        </a>
-      </div>
-    </div>
   </section>
 </BaseLayout>

@@ -16,7 +16,7 @@ Site oficial: ${SITE.url} · Limba conținutului: română · Motto: „${PERSON
 ## Despre
 
 - [Despre ${PERSON.name}](${SITE.url}/despre): profil dublu — web development, AI & vibe coding, securitate cibernetică, infrastructură digitală și marketing online; munte, fotografie de peisaj și videografie outdoor.
-- [Contact](${SITE.url}/contact): proiecte web, implementări AI, SEO și GA4 pe WhatsApp: ${WHATSAPP.display} (${WHATSAPP.e164}); întrebări despre munte și trasee pe email: ${EMAIL}.
+- [Contact](${SITE.url}/contact): întrebări despre trasee și ture montane — email ${EMAIL} sau WhatsApp ${WHATSAPP.display} (${WHATSAPP.e164}).
 
 ## Portofoliu web (proiecte realizate de ${PERSON.name})
 
