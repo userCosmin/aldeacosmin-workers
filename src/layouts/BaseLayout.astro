@@ -9,7 +9,6 @@ import Footer from '../components/layout/Footer.astro';
 import NavbarDock from '../components/ui/NavbarDock';
 import CookieConsent from '../components/ui/CookieConsent';
 import ElevationScrollBar from '../components/motion/ElevationScrollBar';
-import WhatsAppButton from '../components/ui/WhatsAppButton.astro';
 import type { Crumb, SchemaNode } from '../lib/schema';
 
 interface Props extends SEOProps {
@@ -69,7 +68,6 @@ const { breadcrumbs = [], schema = [], preloadImage, ...seo } = Astro.props;
       <slot />
     </main>
     <Footer />
-    <WhatsAppButton transition:persist="whatsapp-button" />
     <CookieConsent client:idle transition:persist="cookie-consent" />
     <script>
       import '../scripts/site';

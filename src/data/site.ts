@@ -80,15 +80,8 @@ export const OTHER_PROFILES = [
 
 export const SAME_AS = [...SOCIALS.map((s) => s.url), ...OTHER_PROFILES];
 
-const WHATSAPP_NUMBER = '40779255331';
-const WHATSAPP_TEXT = 'Bună, Cosmin! Am văzut site-ul aldeacosmin.ro și aș vrea să discutăm despre un proiect.';
 export const EMAIL = 'contact@aldeacosmin.ro';
 
-export const WHATSAPP = {
-  display: '0779 255 331',
-  e164: `+${WHATSAPP_NUMBER}`,
-  url: `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_TEXT)}`,
-} as const;
 export const YOUTUBE_CHANNEL_ID = 'UC246vdF8Fxxy_7d2acuYQcA';
 
 export const HERO_STATS = [

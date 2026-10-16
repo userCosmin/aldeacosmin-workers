@@ -3,8 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/layout/PageHero.astro';
 import SectionHeading from '../components/ui/SectionHeading.astro';
 import SocialCards from '../components/ui/SocialCards.astro';
-import { EMAIL, SITE, WHATSAPP } from '../data/site';
-import WhatsAppIcon from '../components/ui/WhatsAppIcon.astro';
+import { EMAIL, SITE } from '../data/site';
 import { trackAttrs } from '../lib/analytics';
 import { PERSON_ID, type Crumb } from '../lib/schema';
 
@@ -14,7 +13,7 @@ const crumbs: Crumb[] = [
 ];
 const title = 'Contact — Trasee, ture și întrebări despre munte';
 const description =
-  'Scrie-i lui Aldea Cosmin din Alba Iulia pe email sau WhatsApp pentru întrebări despre trasee montane, condițiile de pe creste sau o tură împreună.';
+  'Scrie-i lui Aldea Cosmin din Alba Iulia pe email pentru întrebări despre trasee montane, condițiile de pe creste sau o tură împreună.';
 
 const contactNode = {
   '@type': 'ContactPage',
@@ -41,15 +40,6 @@ const contactNode = {
       {...trackAttrs('email_click', { location: 'contact-hero' })}
     >
       {EMAIL} <span aria-hidden="true">→</span>
-    </a>
-    <a
-      href={WHATSAPP.url}
-      target="_blank"
-      rel="noopener"
-      class="inline-flex h-14 items-center gap-2 rounded-full bg-[#25d366] px-7 font-semibold text-[#063b1f] transition-transform hover:-translate-y-0.5"
-      {...trackAttrs('whatsapp_click', { location: 'contact-hero' })}
-    >
-      <WhatsAppIcon class="size-5" /> Scrie-mi pe WhatsApp<span class="sr-only"> (se deschide într-o filă nouă)</span>
     </a>
   </section>
 

@@ -1,4 +1,4 @@
-import { EMAIL, PERSON, SAME_AS, SITE, WHATSAPP } from '../data/site';
+import { EMAIL, PERSON, SAME_AS, SITE } from '../data/site';
 import type { Story } from '../data/stories';
 import type { Massif } from '../data/massifs';
 import type { PortfolioProject } from '../data/portfolio';
@@ -24,7 +24,6 @@ export const personNode = (): SchemaNode => ({
   jobTitle: PERSON.jobTitle,
   description:
     'Web developer, AI entuziast & vibe coding și fotograf montan din Alba Iulia, pasionat de securitate cibernetică. Construiește platforme web rapide și soluții cu AI pentru branduri din Transilvania și documentează munții României în jurnale, fotografii și videoclipuri.',
-  telephone: WHATSAPP.e164,
   email: EMAIL,
   address: {
     '@type': 'PostalAddress',

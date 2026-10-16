@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { PERSON, SITE, SOCIALS, WHATSAPP } from '../data/site';
+import { EMAIL, PERSON, SITE, SOCIALS } from '../data/site';
 import { PROJECTS } from '../data/portfolio';
 import { STORIES } from '../data/stories';
 import { MASSIFS, massifStats } from '../data/massifs';
@@ -61,7 +61,7 @@ ${htmlToMarkdown(s.content)}`,
 - Rol: ${PERSON.jobTitle} (${PERSON.jobTitleRo})
 - Locație: ${PERSON.city}, ${PERSON.region}, România
 - Site: ${SITE.url}
-- WhatsApp: ${WHATSAPP.display} (${WHATSAPP.e164})
+- Email: ${EMAIL}
 - Profiluri oficiale: ${SOCIALS.map((s) => `${s.label} ${s.url}`).join(' · ')}
 - YouTube: arhivă de peste 108 videoclipuri și jurnale video montane
 

@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { EMAIL, PERSON, SITE, SOCIALS, WHATSAPP } from '../data/site';
+import { EMAIL, PERSON, SITE, SOCIALS } from '../data/site';
 import { PROJECTS } from '../data/portfolio';
 import { STORIES, STORY_TOTALS } from '../data/stories';
 import { MASSIFS } from '../data/massifs';
@@ -16,7 +16,7 @@ Site oficial: ${SITE.url} · Limba conținutului: română · Motto: „${PERSON
 ## Despre
 
 - [Despre ${PERSON.name}](${SITE.url}/despre): profil dublu — web development, AI & vibe coding, securitate cibernetică, infrastructură digitală și marketing online; munte, fotografie de peisaj și videografie outdoor.
-- [Contact](${SITE.url}/contact): întrebări despre trasee și ture montane — email ${EMAIL} sau WhatsApp ${WHATSAPP.display} (${WHATSAPP.e164}).
+- [Contact](${SITE.url}/contact): întrebări despre trasee și ture montane: ${EMAIL}.
 
 ## Portofoliu web (proiecte realizate de ${PERSON.name})
 
