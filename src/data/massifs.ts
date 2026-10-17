@@ -199,6 +199,26 @@ export const MASSIFS: Massif[] = [
     geo: { lat: 45.5979, lng: 23.1461 },
     videos: [],
   },
+  {
+    slug: 'parang',
+    name: 'Parâng',
+    fullName: 'Munții Parâng',
+    range: 'Carpații Meridionali',
+    counties: 'Hunedoara, Gorj, Vâlcea',
+    tagline: 'Lacuri glaciare, bujori de munte și o creastă lungă peste 2.400 m.',
+    intro: [
+      'Parângul ridică una dintre cele mai lungi creste ale Carpaților Meridionali, deasupra Văii Jiului, cu Parângul Mare (2.519 m) drept cel mai înalt punct. Sub creastă se înșiră căldări glaciare cu lacuri de toate mărimile.',
+      'Tura documentată pleacă din stațiunea Parâng și leagă lacurile Mija, Cârja și Verde de Vârful Cârja (2.405 m) — 18,4 km și +1.368 m la început de iunie, între bujori de munte și zăpadă.',
+    ],
+    highlights: [
+      { title: 'Lacurile glaciare', text: 'Mija, Cârja și Lacul Verde, plus Tăul Înghețat văzut de pe creastă.' },
+      { title: 'Vârful Cârja', text: '2.405 m, atins la finalul unui circuit de 18,4 km din stațiunea Parâng.' },
+      { title: 'Bujorii de munte', text: 'La început de iunie, versanții de sub creastă sunt acoperiți de flori.' },
+    ],
+    image: 'https://media.aldeacosmin.ro/articole/parangul-lacurilor-2024/parangul-lacurilor-56.webp',
+    geo: { lat: 45.3627, lng: 23.521 },
+    videos: [],
+  },
 ];
 
 export const getMassif = (slug: string) => MASSIFS.find((m) => m.slug === slug);
