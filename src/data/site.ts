@@ -17,7 +17,7 @@ export const SITE = {
     'https://media.aldeacosmin.ro/cdn-cgi/image/width=1200,height=630,fit=cover,quality=80,format=jpeg/galerie/muntii-retezat-1.webp',
   heroImage: 'https://media.aldeacosmin.ro/galerie/muntii-retezat-1.webp',
   portraitImage: 'https://media.aldeacosmin.ro/general/imagine-povesti.webp',
-  logo: 'https://media.aldeacosmin.ro/general/logo%20aldea%20cosmin%20alb.webp',
+  logo: 'https://aldeacosmin.ro/brand/logo.svg',
   twitterHandle: '@Aldea_Cosmin_',
 } as const;
 

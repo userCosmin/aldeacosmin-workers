@@ -34,9 +34,9 @@ const columns = [
   <div class="pointer-events-none absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-accent/50 to-transparent"></div>
   <div class="container-x grid gap-12 py-16 md:grid-cols-[1.4fr_2fr]">
     <div class="space-y-5">
-      <a href="/" class="inline-flex items-center gap-3">
-        <span class="grid size-10 place-items-center rounded-xl bg-accent font-display text-lg font-semibold text-accent-ink">AC</span>
-        <span class="font-display text-xl">{PERSON.shortName}</span>
+      <a href="/" class="inline-block" aria-label={`${PERSON.name} — acasă`}>
+        <img src="/brand/logo.svg" alt="" width="729" height="490" loading="lazy" class="h-auto w-56 dark:hidden" />
+        <img src="/brand/logo-dark.svg" alt="" width="729" height="490" loading="lazy" class="hidden h-auto w-56 dark:block" />
       </a>
       <p class="max-w-sm text-sm leading-relaxed text-muted">
         {PERSON.role} din {PERSON.city}, pasionat de securitate cibernetică. Platforme web rapide, soluții cu AI și jurnale din munții României.

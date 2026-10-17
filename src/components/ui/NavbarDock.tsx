@@ -4,6 +4,8 @@ import { NAV_ITEMS } from '../../data/site';
 import { ICONS } from './Icon';
 import ThemeToggle from './ThemeToggle';
 
+/** Intrinsic size of /brand/mark*.svg (keeps the aspect ratio reserved before load). */
+const MARK = { w: 316, h: 199 };
 const normalize = (p: string) => p.replace(/\.html$/, '').replace(/\/$/, '') || '/';
 
 /**
@@ -30,9 +32,10 @@ export default function NavbarDock({ initialPath }: { initialPath: string }) {
       <header>
         {/* Mobile top bar: brand + theme */}
         <div className="pointer-events-none fixed inset-x-0 top-0 z-50 flex items-center justify-between px-4 pt-[max(env(safe-area-inset-top),1rem)] md:hidden">
-          <a href="/" className="glass pointer-events-auto flex items-center gap-2 rounded-full py-1.5 pr-4 pl-1.5 shadow-float">
-            <span className="grid size-8 place-items-center rounded-full bg-accent font-display text-sm font-semibold text-accent-ink">AC</span>
-            <span className="font-display text-[0.95rem]">Aldea Cosmin</span>
+          <a href="/" className="glass pointer-events-auto flex items-center gap-2.5 rounded-full py-2.5 pr-4 pl-3.5 shadow-float">
+            <img src="/brand/mark.svg" alt="" width={MARK.w} height={MARK.h} className="h-6 w-auto dark:hidden" />
+            <img src="/brand/mark-dark.svg" alt="" width={MARK.w} height={MARK.h} className="h-6 w-auto hidden dark:block" />
+            <span className="text-[0.78rem] font-semibold tracking-[0.18em] uppercase">Aldea Cosmin</span>
           </a>
           <div className="glass pointer-events-auto rounded-full shadow-float">
             <ThemeToggle />
@@ -53,9 +56,10 @@ export default function NavbarDock({ initialPath }: { initialPath: string }) {
             <a
               href="/"
               aria-label="Aldea Cosmin — acasă"
-              className="mr-1 hidden size-11 shrink-0 place-items-center rounded-full bg-accent font-display text-[0.95rem] font-semibold text-accent-ink transition-transform hover:scale-105 md:grid"
+              className="mr-1 hidden h-11 shrink-0 items-center px-2.5 transition-transform hover:scale-105 md:flex"
             >
-              AC
+              <img src="/brand/mark.svg" alt="" width={MARK.w} height={MARK.h} className="h-7 w-auto dark:hidden" />
+              <img src="/brand/mark-dark.svg" alt="" width={MARK.w} height={MARK.h} className="h-7 w-auto hidden dark:block" />
             </a>
             <ul className="flex items-center gap-0.5">
               {NAV_ITEMS.map((item) => {
