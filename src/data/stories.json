@@ -1938,7 +1938,15 @@
   },
   "summits": [],
   "videos": [],
-  "gallery": [],
+  "gallery": [
+   {
+    "src": "https://media.aldeacosmin.ro/articole/pasul-ursoaia-poiana-calineasa/traseu-pasul-ursoaia-poiana-calineasa.webp",
+    "title": "Pasul Ursoaia",
+    "caption": "Pasul Ursoaia — Poiana Călineasa",
+    "type": "image",
+    "wide": false
+   }
+  ],
   "references": [
    {
     "title": "Munții Bihor — Wikipedia",
@@ -2675,163 +2683,190 @@
     "src": "https://media.aldeacosmin.ro/articole/piatra-soimului/traseu-piatra-soimului.webp",
     "caption": "Traseu Spre Piatra Soimului",
     "type": "image",
-    "wide": true
+    "wide": true,
+    "title": "Harta traseului spre Piatra Șoimului"
    },
    {
     "src": "https://media.aldeacosmin.ro/articole/piatra-soimului/piatra-soimului.webp",
     "caption": "Traseu Spre Piatra Soimului",
     "type": "image",
-    "wide": false
+    "wide": false,
+    "title": "Puntea peste pârâu, la intrarea în pădure"
    },
    {
     "src": "https://media.aldeacosmin.ro/articole/piatra-soimului/piatra-soimului-2.webp",
     "caption": "Traseu Spre Piatra Soimului",
     "type": "image",
-    "wide": false
+    "wide": false,
+    "title": "Puntea peste pârâu, la intrarea în pădure"
    },
    {
     "src": "https://media.aldeacosmin.ro/articole/piatra-soimului/piatra-soimului-3.webp",
     "caption": "Traseu Spre Piatra Soimului",
     "type": "image",
-    "wide": false
+    "wide": false,
+    "title": "Popas în pădurea de pin"
    },
    {
     "src": "https://media.aldeacosmin.ro/articole/piatra-soimului/piatra-soimului-4.webp",
     "caption": "Traseu Spre Piatra Soimului",
     "type": "image",
-    "wide": false
+    "wide": false,
+    "title": "Indicatoarele spre Colții Șoimului și belvedere"
    },
    {
     "src": "https://media.aldeacosmin.ro/articole/piatra-soimului/piatra-soimului-5.webp",
     "caption": "Traseu Spre Piatra Soimului",
     "type": "image",
-    "wide": false
+    "wide": false,
+    "title": "Șură veche cu acoperiș de șindrilă"
    },
    {
     "src": "https://media.aldeacosmin.ro/articole/piatra-soimului/piatra-soimului-6.webp",
     "caption": "Traseu Spre Piatra Soimului",
     "type": "image",
-    "wide": false
+    "wide": false,
+    "title": "Platoul Mărișelului, de deasupra"
    },
    {
     "src": "https://media.aldeacosmin.ro/articole/piatra-soimului/piatra-soimului-7.webp",
     "caption": "Traseu Spre Piatra Soimului",
     "type": "image",
-    "wide": false
+    "wide": false,
+    "title": "Pajiștile și drumurile de pe platou, de deasupra"
    },
    {
     "src": "https://media.aldeacosmin.ro/articole/piatra-soimului/piatra-soimului-8.webp",
     "caption": "Traseu Spre Piatra Soimului",
     "type": "image",
-    "wide": false
+    "wide": false,
+    "title": "Versanții împăduriți de sub platou"
    },
    {
     "src": "https://media.aldeacosmin.ro/articole/piatra-soimului/piatra-soimului-9.webp",
     "caption": "Traseu Spre Piatra Soimului",
     "type": "image",
-    "wide": false
+    "wide": false,
+    "title": "Văile împădurite de sub Piatra Șoimului"
    },
    {
     "src": "https://media.aldeacosmin.ro/articole/piatra-soimului/piatra-soimului-10.webp",
     "caption": "Traseu Spre Piatra Soimului",
     "type": "image",
-    "wide": false
+    "wide": false,
+    "title": "Lângă o șură veche, pe pajiște"
    },
    {
     "src": "https://media.aldeacosmin.ro/articole/piatra-soimului/piatra-soimului-11.webp",
     "caption": "Traseu Spre Piatra Soimului",
     "type": "image",
-    "wide": false
+    "wide": false,
+    "title": "Scară de lemn urcând pe un trunchi de copac"
    },
    {
     "src": "https://media.aldeacosmin.ro/articole/piatra-soimului/piatra-soimului-12.webp",
     "caption": "Traseu Spre Piatra Soimului",
     "type": "image",
-    "wide": false
+    "wide": false,
+    "title": "Marcajele de la belvedere"
    },
    {
     "src": "https://media.aldeacosmin.ro/articole/piatra-soimului/piatra-soimului-13.webp",
     "caption": "Traseu Spre Piatra Soimului",
     "type": "image",
-    "wide": false
+    "wide": false,
+    "title": "Indicator cu avertizare de cădere în gol"
    },
    {
     "src": "https://media.aldeacosmin.ro/articole/piatra-soimului/piatra-soimului-14.webp",
     "caption": "Traseu Spre Piatra Soimului",
     "type": "image",
-    "wide": false
+    "wide": false,
+    "title": "Belvedere de pe stânci, cu marcaj punct roșu"
    },
    {
     "src": "https://media.aldeacosmin.ro/articole/piatra-soimului/piatra-soimului-15.webp",
     "caption": "Traseu Spre Piatra Soimului",
     "type": "image",
-    "wide": false
+    "wide": false,
+    "title": "Pe stâncile Pietrei Șoimului"
    },
    {
     "src": "https://media.aldeacosmin.ro/articole/piatra-soimului/piatra-soimului-16.webp",
     "caption": "Traseu Spre Piatra Soimului",
     "type": "image",
-    "wide": false
+    "wide": false,
+    "title": "Pe stâncile Pietrei Șoimului, printre pini"
    },
    {
     "src": "https://media.aldeacosmin.ro/articole/piatra-soimului/piatra-soimului-17.webp",
     "caption": "Traseu Spre Piatra Soimului",
     "type": "image",
-    "wide": false
+    "wide": false,
+    "title": "Culmea împădurită, de deasupra"
    },
    {
     "src": "https://media.aldeacosmin.ro/articole/piatra-soimului/piatra-soimului-18.webp",
     "caption": "Traseu Spre Piatra Soimului",
     "type": "image",
-    "wide": false
+    "wide": false,
+    "title": "Platoul și văile din jur, de deasupra"
    },
    {
     "src": "https://media.aldeacosmin.ro/articole/piatra-soimului/piatra-soimului-19.webp",
     "caption": "Traseu Spre Piatra Soimului",
     "type": "image",
-    "wide": false
+    "wide": false,
+    "title": "Colții de stâncă printre pini"
    },
    {
     "src": "https://media.aldeacosmin.ro/articole/piatra-soimului/piatra-soimului-20.webp",
     "caption": "Traseu Spre Piatra Soimului",
     "type": "image",
-    "wide": false
+    "wide": false,
+    "title": "Pe colții de stâncă"
    },
    {
     "src": "https://media.aldeacosmin.ro/articole/piatra-soimului/piatra-soimului-21.webp",
     "caption": "Traseu Spre Piatra Soimului",
     "type": "image",
-    "wide": false
+    "wide": false,
+    "title": "Împreună pe stânci"
    },
    {
     "src": "https://media.aldeacosmin.ro/articole/piatra-soimului/piatra-soimului-22.webp",
     "caption": "Traseu Spre Piatra Soimului",
     "type": "image",
-    "wide": false
+    "wide": false,
+    "title": "Popas la final de tură"
    },
    {
     "src": "https://media.aldeacosmin.ro/articole/piatra-soimului/piatra-soimului-23.webp",
     "caption": "Traseu Spre Piatra Soimului",
     "type": "image",
-    "wide": false
+    "wide": false,
+    "title": "Belvedere deasupra văii"
    },
    {
     "src": "https://media.aldeacosmin.ro/articole/piatra-soimului/piatra-soimului-24.webp",
     "caption": "Traseu Spre Piatra Soimului",
     "type": "image",
-    "wide": false
+    "wide": false,
+    "title": "Pajiște la marginea pădurii"
    },
    {
     "src": "https://media.aldeacosmin.ro/articole/piatra-soimului/piatra-soimului-25.webp",
     "caption": "Traseu Spre Piatra Soimului",
     "type": "image",
-    "wide": false
+    "wide": false,
+    "title": "Ciuperca „degetele diavolului” printre ierburi"
    },
    {
     "src": "https://media.aldeacosmin.ro/articole/piatra-soimului/piatra-soimului-26.webp",
     "caption": "Traseu Spre Piatra Soimului",
     "type": "image",
-    "wide": false
+    "wide": false,
+    "title": "Panoul traseului Rusești – Dâlboaca – Colții Șoimului"
    }
   ],
   "references": [
@@ -5868,7 +5903,7 @@
    "difficulty": "Medie",
    "duration": "9:28:00",
    "distance": "32,89 km",
-   "elevation": "+1.429 m",
+   "elevation": "+1.429 m / -1.429 m",
    "maxAltitude": "2.244 m",
    "startPoint": "Păltiniș, jud. Sibiu (~1.400 m)",
    "season": "Mai – Octombrie"
@@ -5876,7 +5911,7 @@
   "metrics": {
    "distanceKm": 32.89,
    "ascentM": 1429,
-   "descentM": 0,
+   "descentM": 1429,
    "maxAltitudeM": 2244
   },
   "summits": [
