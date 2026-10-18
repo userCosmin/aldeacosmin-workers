@@ -13,7 +13,7 @@ const crumbs: Crumb[] = [
   { name: 'Galerie', href: '/galerie' },
 ];
 const title = 'Galerie Foto — Peisaje din munții României';
-const description = `${GALLERY.length} fotografii de peisaj din Retezat, Făgăraș, Parâng, Apuseni, Rodnei, Țarcu, Trascău, Maramureș, Cindrel și Ceahlău, surprinse pas cu pas de Aldea Cosmin.`;
+const description = `${GALLERY.length} fotografii de peisaj din Retezat, Făgăraș, Parâng, Apuseni, Rodnei, Țarcu, Trascău, Maramureș, Cindrel, Ceahlău și Bucegi, surprinse pas cu pas de Aldea Cosmin.`;
 
 const filters = MASSIFS.filter((m) => GALLERY.some((g) => g.massif === m.slug)).map((m) => ({ slug: m.slug, name: m.name }));
 const galleryNode = {

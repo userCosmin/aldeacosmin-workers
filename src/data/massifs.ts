@@ -243,6 +243,26 @@ export const MASSIFS: Massif[] = [
     geo: { lat: 46.9775, lng: 25.9498 },
     videos: [],
   },
+  {
+    slug: 'bucegi',
+    name: 'Bucegi',
+    fullName: 'Munții Bucegi',
+    range: 'Carpații Meridionali',
+    counties: 'Brașov, Prahova, Dâmbovița',
+    tagline: 'Abrupturi de calcar și conglomerat deasupra culoarului Rucăr–Bran.',
+    intro: [
+      'Bucegii închid spre est Carpații Meridionali, cu un platou înalt mărginit de abrupturi de conglomerat și calcar și cu Vârful Omu, de peste 2.500 m, drept cel mai înalt punct. Latura lor vestică, spre Moieciu și Bran, este cea mai sălbatică și mai puțin umblată.',
+      'Tura documentată urcă din Moieciu de Sus pe Vârful Bucșa (1.848 m) și continuă pe muchie până la Strungile Mici și refugiul din Șaua Strunga — 13,8 km și +935 m, în sezonul afinelor.',
+    ],
+    highlights: [
+      { title: 'Vârful Bucșa', text: '1.848 m, vârful înierbat de la capătul muchiei care urcă din Moieciu de Sus.' },
+      { title: 'Strungile Mici', text: 'Pereți și colți de calcar la aproape 1.960 m, deasupra abrupturilor vestice.' },
+      { title: 'Refugiul Șaua Strunga', text: 'Adăpost de lemn într-una dintre trecătorile clasice ale Bucegilor.' },
+    ],
+    image: 'https://media.aldeacosmin.ro/articole/bucegi-bucsa-2025/bucegi-bucsa-9.webp',
+    geo: { lat: 45.3907, lng: 25.4082 },
+    videos: [],
+  },
 ];
 
 export const getMassif = (slug: string) => MASSIFS.find((m) => m.slug === slug);
