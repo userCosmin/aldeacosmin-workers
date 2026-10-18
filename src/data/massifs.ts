@@ -265,6 +265,26 @@ export const MASSIFS: Massif[] = [
     geo: { lat: 45.3907, lng: 25.4082 },
     videos: [],
   },
+  {
+    slug: 'cerna-cazane',
+    name: 'Cerna și Cazane',
+    fullName: 'Valea Cernei și Cazanele Dunării',
+    range: 'Carpații Meridionali',
+    counties: 'Caraș-Severin, Mehedinți',
+    tagline: 'Calcar alb, pin negru de Banat și Dunărea strânsă între pereți.',
+    intro: [
+      'În sud-vestul țării, Munții Cernei și Mehedinți se termină în abrupturi de calcar deasupra Băilor Herculane, iar spre sud Munții Almăjului coboară până la Dunăre, unde fluviul se strânge între pereții Cazanelor. Este o zonă caldă, cu pin negru de Banat, viperă cu corn și toamne lungi.',
+      'Tura documentată ține două zile: din Băile Herculane pe la Crucea Albă și pe Poteca Pisicii până pe Domogledul Mic și Domogledul Mare (1.105 m), apoi pe Ciucaru Mare, deasupra Cazanelor Mari — 18,5 km și +1.264 m la mijloc de octombrie.',
+    ],
+    highlights: [
+      { title: 'Domogledul Mare', text: '1.105 m, culmea înierbată de deasupra Văii Cernei, la capătul Potecii Pisicii.' },
+      { title: 'Crucea Albă', text: 'Belvedere la aproximativ 529 m, cu Băile Herculane la picioare.' },
+      { title: 'Cazanele Mari', text: 'Dunărea între pereți de calcar, văzută de pe abrupturile Ciucarului Mare.' },
+    ],
+    image: 'https://media.aldeacosmin.ro/articole/ciucaru-domogled-2023/ciucaru-domogled-44.webp',
+    geo: { lat: 44.8712, lng: 22.4434 },
+    videos: [],
+  },
 ];
 
 export const getMassif = (slug: string) => MASSIFS.find((m) => m.slug === slug);
