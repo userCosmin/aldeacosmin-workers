@@ -221,6 +221,26 @@ export const MASSIFS: Massif[] = [
     geo: { lat: 45.3627, lng: 23.521 },
     videos: [],
   },
+  {
+    slug: 'ceahlau',
+    name: 'Ceahlău',
+    fullName: 'Masivul Ceahlău',
+    range: 'Carpații Orientali',
+    counties: 'Neamț',
+    tagline: 'Cetatea de conglomerate de deasupra Lacului Izvorul Muntelui.',
+    intro: [
+      'Ceahlăul se ridică izolat deasupra Lacului Izvorul Muntelui, cu un platou înalt înconjurat de abrupturi și turnuri de conglomerat. Ocolașul Mare (1.907 m) este cel mai înalt punct, iar Vârful Toaca (1.904 m) este vârful emblematic al masivului, ocrotit de Parcul Național Ceahlău.',
+      'Tura documentată urcă de la Cabana Izvorul Muntelui pe bandă albastră, pe la Polița cu Crini, Piatra cu Apă și Detunate, până la Cabana Dochia și pe scările Vârfului Toaca — 15,3 km și +1.268 m în august.',
+    ],
+    highlights: [
+      { title: 'Vârful Toaca', text: '1.904 m, cu stația meteo, scări metalice și Stânca Panaghia alături.' },
+      { title: 'Detunatele', text: 'Blocuri uriașe de conglomerat prăbușite, chiar sub platou.' },
+      { title: 'Cabana Dochia', text: 'Prima cabană turistică din Carpații Orientali, ridicată în 1913.' },
+    ],
+    image: 'https://media.aldeacosmin.ro/articole/ceahlau-toaca-dochia-2023/ceahlau-toaca-dochia-23.webp',
+    geo: { lat: 46.9775, lng: 25.9498 },
+    videos: [],
+  },
 ];
 
 export const getMassif = (slug: string) => MASSIFS.find((m) => m.slug === slug);
