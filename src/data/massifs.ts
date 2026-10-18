@@ -28,6 +28,7 @@ export const MASSIFS: Massif[] = [
     intro: [
       'Retezatul este masivul cu cel mai spectaculos relief glaciar din România: circuri, morene și peste 80 de lacuri glaciare, adăpostite de o creastă principală care trece de 2.500 m. Aici a fost înființat primul parc național al țării.',
       'Jurnalele de aici merg de la ascensiunea solitară pe Vârful Peleaga, prin furtună și întâlniri cu marmotele, până la circuitul alpin pe Custura Păpușii, cu urcare pe la Tăul Țapului.',
+      'Dinspre nord, de la Cabana Pietrele, Culmea Lolaia urcă peste Lolaia Nord până pe Vârful Retezat (2.482 m), cu coborâre prin căldarea Lacului Stânișoara — 21,4 km și +1.562 m, cu zăpadă pe creastă la final de mai.',
       'În sud, Retezatul Mic schimbă granitul pe calcar: circuitul din Valea Iarului urcă pe platoul carstic până pe Piatra Iorgovanului (2.014 m) și coboară prin Valea Soarbele — 14,3 km și +1.106 m, toamna, deasupra unei mări de nori.',
     ],
     highlights: [
