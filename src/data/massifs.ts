@@ -53,6 +53,7 @@ export const MASSIFS: Massif[] = [
       'Făgărașul formează cel mai înalt lanț muntos din România, aliniat pe aproape 70 de kilometri de-a lungul frontierei istorice dintre Transilvania și Muntenia. Moldoveanu (2.544 m) și Negoiu (2.535 m) sunt reperele cele mai cunoscute.',
       'Turele documentate pleacă din Ferma de Cerbi, pe la Cabana Bârcaciu, spre Vârful Scara și Vârful Ciortea Vest, cu coborâre pe la Lacul Avrig — zile lungi, cu aproape 2.000 m diferență de nivel.',
       'La polul opus, circuitul scurt de la Bâlea Lac urcă prin Șaua Văiugii pe Vânătarea lui Buteanu (2.507 m) și Capra, cu coborâre pe la Lacul Capra — 6,9 km și +614 m, în întregime în golul alpin.',
+      'Pe versantul nordic, traversarea de pe Muchia Drăgușului coboară pe lângă cascade în Valea Sâmbetei, până la Cabana Valea Sâmbetei — 21,4 km și +1.451 m, printre bujori de munte și ceață.',
     ],
     highlights: [
       { title: 'Vârful Scara', text: '22,81 km și +1.797 m pe ultimul segment de creastă, cu gradient de până la 34%.' },
