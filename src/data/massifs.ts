@@ -214,6 +214,7 @@ export const MASSIFS: Massif[] = [
       'Parângul ridică una dintre cele mai lungi creste ale Carpaților Meridionali, deasupra Văii Jiului, cu Parângul Mare (2.519 m) drept cel mai înalt punct. Sub creastă se înșiră căldări glaciare cu lacuri de toate mărimile.',
       'Prima tură documentată pleacă din stațiunea Parâng și leagă lacurile Mija, Cârja și Verde de Vârful Cârja (2.405 m) — 18,4 km și +1.368 m la început de iunie, între bujori de munte și zăpadă.',
       'A doua urcă de pe Valea Lotrului la Lacul Gâlcescu, cel mai mare lac glaciar din masiv, apoi pe Setea Mare (2.365 m) și Piatra Tăiată, cu coborâre pe la Lacul Zănoaga Mare — 14,6 km și +1.008 m la sfârșit de august.',
+      'A treia pleacă primăvara din Pasul Groapa Seacă pe culmea nordică — Coricia, Ciobanu Mare, Pietrii și Găuri, pe lângă Tăul Huluzu și Lacul Ciobanului — până pe Coasta lui Rus (2.301 m): 16,5 km și +1.043 m la mijloc de aprilie, cu zăpadă pe culme.',
     ],
     highlights: [
       { title: 'Lacurile glaciare', text: 'Gâlcescu, Mija, Cârja, Lacul Verde și Zănoaga Mare, plus Tăul Înghețat văzut de pe creastă.' },
