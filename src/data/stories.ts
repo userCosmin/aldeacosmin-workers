@@ -87,5 +87,5 @@ export const STORY_TOTALS = {
   stories: STORIES.length,
   distanceKm: STORIES.reduce((n, s) => n + s.metrics.distanceKm, 0),
   ascentM: STORIES.reduce((n, s) => n + s.metrics.ascentM, 0),
-  summits: STORIES.reduce((n, s) => n + s.summits.length, 0),
+  summits: new Set(STORIES.flatMap((s) => s.summits)).size,
 };
